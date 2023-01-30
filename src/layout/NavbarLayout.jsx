@@ -1,14 +1,12 @@
-import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Link, useLocation, useSubmit } from 'react-router-dom';
+import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { useLocation, useSubmit } from 'react-router-dom';
 import { authStoreActions } from '../store/auth/auth.store';
 
-/**
- *
- * @param props { isLoggedIn: boolean}
- * @returns
- */
 function NavbarLayout(props) {
+  const [burgerClasses, setBurgerClasses] = useState(['navbar-burger']);
+  const [menuClasses, setMenuClasses] = useState(['navbar-menu']);
+
   const submit = useSubmit();
   const dispatch = useDispatch();
   const location = useLocation();
@@ -16,6 +14,18 @@ function NavbarLayout(props) {
   function logoutHandler() {
     dispatch(authStoreActions.clearAuthData(''));
     submit(null, { method: 'post', action: '/logout' });
+  }
+
+  function toggleMenu() {
+    setBurgerClasses((prev) => {
+      return prev.length === 1
+        ? ['navbar-burger', 'is-active']
+        : ['navbar-burger'];
+    });
+
+    setMenuClasses((prev) => {
+      return prev.length === 1 ? ['navbar-menu', 'is-active'] : ['navbar-menu'];
+    });
   }
 
   return (
@@ -32,10 +42,11 @@ function NavbarLayout(props) {
 
         <a
           role="button"
-          className="navbar-burger"
+          className={burgerClasses.join(' ')}
           aria-label="menu"
           aria-expanded="false"
           data-target="navbarBasicExample"
+          onClick={toggleMenu}
         >
           <span aria-hidden="true"></span>
           <span aria-hidden="true"></span>
@@ -43,7 +54,7 @@ function NavbarLayout(props) {
         </a>
       </div>
 
-      <div id="navbarBasicExample" className="navbar-menu">
+      <div id="navbarBasicExample" className={menuClasses}>
         <div className="navbar-start">
           {/* <Link to="/" className="navbar-item">
             Home
