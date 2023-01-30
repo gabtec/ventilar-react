@@ -1,14 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const state = {
-  isLoggedIn: true,
-  authUser: 'John Doie',
+  authUser: undefined,
   accessToken: undefined,
   refreshToken: undefined,
-  // authUser: undefined,
-  // accessToken: undefined,
-  // refreshToken: undefined,
-  // isLoggedIn: false,
+  isLoggedIn: false,
 };
 
 export const authSlice = createSlice({
