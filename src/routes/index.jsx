@@ -27,6 +27,10 @@ const router = createBrowserRouter([
     // loader: authService.checkAuthLoader,
     children: [{ index: true, element: <VentilatorsList /> }],
   },
+  {
+    path: '*',
+    element: <NotFound />,
+  },
 ]);
 // const router = createBrowserRouter([
 //   {

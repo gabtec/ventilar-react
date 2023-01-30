@@ -1,0 +1,26 @@
+.gt_404_container {
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  background-color: aquamarine;
+}
+
+.gt_404_container > section {
+  padding-top: 10%;
+  text-align: center;
+  /* border: 3px solid red; */
+  /* background-color: yellow !important; */
+}
+
+.gt_error_section {
+  background-color: aliceblue;
+}
+.gt_error_section strong {
+  font-size: 5rem;
+}
+
+.gt_404 {
+  border-right: 3px solid black;
+  padding-right: 0.3rem;
+}
