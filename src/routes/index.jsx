@@ -6,6 +6,7 @@ import MainLayout from '../layout/MainLayout';
 import HomePage from '../pages/HomePage';
 import LoginPage from '../pages/LoginPage';
 import SpaPage from '../pages/SpaPage';
+import ProtectedRoutes from '../layout/ProtectedRoutes';
 /* -- loaders -- */
 import * as authService from '../utils/auth-service';
 /* -- actions -- */
@@ -23,9 +24,20 @@ const router = createBrowserRouter([
   { path: '/logout', action: logoutAction },
   {
     path: '/spa',
-    element: <SpaPage />,
-    // loader: authService.checkAuthLoader,
-    children: [{ index: true, element: <VentilatorsList /> }],
+    element: <ProtectedRoutes />,
+    children: [
+      {
+        path: '',
+        element: <SpaPage />,
+        // loader: authService.checkAuthLoader,
+        children: [
+          {
+            index: true,
+            element: <VentilatorsList />,
+          },
+        ],
+      },
+    ],
   },
   {
     path: '*',

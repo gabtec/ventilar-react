@@ -1,10 +1,14 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const state = {
-  authUser: undefined,
+  isLoggedIn: true,
+  authUser: 'John Doie',
   accessToken: undefined,
   refreshToken: undefined,
-  isLoggedIn: false,
+  // authUser: undefined,
+  // accessToken: undefined,
+  // refreshToken: undefined,
+  // isLoggedIn: false,
 };
 
 export const authSlice = createSlice({
@@ -17,6 +21,7 @@ export const authSlice = createSlice({
       // state.value += action.payload;
     },
     storeAuthData(state, action) {
+      console.log('writting to store');
       console.log(action.payload); // payload = {user, accessToken, refreshToken}
       state.authUser = action.payload.user;
       state.accessToken = action.payload.accessToken;

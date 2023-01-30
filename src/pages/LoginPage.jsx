@@ -7,6 +7,7 @@ import { useDispatch } from 'react-redux';
 import { authStoreActions } from '../store/auth/auth.store';
 
 function LoginPage() {
+  console.log('on login routes');
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -31,8 +32,8 @@ function LoginPage() {
 
   async function submitHandler(event) {
     event.preventDefault();
-    const username = '3428';
-    const password = 'gabriel';
+    const username = '4000';
+    const password = 'sofia';
     // const username = usernameRef.current?.value;
     // const password = usernameRef.current?.value;
 
@@ -50,8 +51,9 @@ function LoginPage() {
       setHasErrors(false);
       const data = await resp.json();
 
-      localStorage.setItem('isIN', 'true');
+      // localStorage.setItem('isIN', 'true');
       dispatch(authStoreActions.storeAuthData(data));
+      console.log('store updated');
       navigate('/spa');
     } catch (error) {
       setHasErrors(true);
