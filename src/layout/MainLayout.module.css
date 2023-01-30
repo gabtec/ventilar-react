@@ -1,8 +1,6 @@
-.gt_main_container {
-  border: 3px solid limegreen;
+.gt_spa_container {
   min-height: 100vh;
   min-height: 100dvh;
-  display: grid;
-  grid-template-rows: auto 1fr auto;
-  background-color: aquamarine;
+  background-color: lightgray;
+  /* border: 3px solid red; */
 }

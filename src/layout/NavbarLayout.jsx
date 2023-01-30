@@ -45,9 +45,9 @@ function NavbarLayout(props) {
 
       <div id="navbarBasicExample" className="navbar-menu">
         <div className="navbar-start">
-          <Link to="/" className="navbar-item">
+          {/* <Link to="/" className="navbar-item">
             Home
-          </Link>
+          </Link> */}
         </div>
 
         <div className="navbar-end">
@@ -66,15 +66,6 @@ function NavbarLayout(props) {
                 <a className="button is-primary" onClick={logoutHandler}>
                   <strong>Log out</strong>
                 </a>
-              )}
-              {!props.isLoggedIn && (
-                <Link
-                  to="/login"
-                  className="button is-primary"
-                  // disabled={location.pathname === '/login' ? true : false}
-                >
-                  <strong>Log in</strong>
-                </Link>
               )}
             </div>
           </div>

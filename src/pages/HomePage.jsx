@@ -10,24 +10,20 @@ function HomePage() {
   }
 
   return (
-    <>
-      <div className="container has-text-centered">
-        <section className="hero">
-          <div className={'hero-body ' + classes['gt-hero']}>
-            <p className={'title is-size-1 ' + classes['gt-title']}>
-              ventil≋AR
-            </p>
-            <p className="subtitle">sponsored by</p>
-            <div className={classes['gt-logo']}></div>
-          </div>
-        </section>
-      </div>
-      <footer className={'footer ' + classes['gt-footer']}>
+    <div className={classes.gt_home_container}>
+      <section className="hero">
+        <div className=" mt-6">
+          <p className={'title ' + classes.gt_title_5r}>ventil≋AR</p>
+          <p className="subtitle">sponsored by</p>
+          <div className={classes.gt_logo}></div>
+        </div>
+      </section>
+      <footer className="footer">
         <button className="button is-info is-large is-fullwidth" onClick={goTo}>
           ENTR≋AR
         </button>
       </footer>
-    </>
+    </div>
   );
 }
 

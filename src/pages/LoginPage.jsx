@@ -61,12 +61,18 @@ function LoginPage() {
   }
 
   return (
-    <>
-      <div
-        className={'columns is-centered is-vcentered ' + classes['gt-columns']}
-      >
+    <div className={classes.gt_login_container}>
+      <section className="hero">
+        <div className=" mt-6">
+          <p className={'title ' + classes.gt_title_5r}>ventil≋AR</p>
+          <p className="subtitle">sponsored by</p>
+          <div className={classes.gt_logo}></div>
+        </div>
+      </section>
+
+      <div className="columns is-centered ">
         <div className="column is-half">
-          <div className={'box ' + classes['gt-box']}>
+          <div className="box">
             {/* --- START FORM --- */}
             <form onSubmit={submitHandler}>
               {/* -- username */}
@@ -121,7 +127,7 @@ function LoginPage() {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }
 

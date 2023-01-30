@@ -1,16 +1,34 @@
-.gt-logo {
+.gt_home_container {
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: grid;
+  grid-template-rows: 1fr auto;
+  background-color: aquamarine;
+}
+
+.gt_home_container > section {
+  padding-top: 10%;
+  text-align: center;
+  /* border: 3px solid red; */
+  /* background-color: yellow !important; */
+}
+
+.gt_home_container > footer {
+  /* background-color: blueviolet !important; */
+  background-color: aquamarine;
+  padding: 1rem;
+}
+
+.gt_logo {
   background-image: url('../assets/xgeeks_logo_member_white.svg');
   background-repeat: no-repeat;
   width: 120px;
   height: 100px;
 
   margin: 0 auto;
+  align-content: center;
 }
 
-.gt-title {
+.gt_title_5r {
   font-size: 5rem !important;
-}
-
-.gt-hero {
-  margin-top: 10%;
 }

@@ -12,24 +12,39 @@ import * as authService from '../utils/auth-service';
 import { logoutAction } from '../pages/LogoutPage';
 
 import NotFound from '../pages/Error404';
+import VentilatorsList from '../components/VentilatorsList';
 
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <MainLayout />,
-    errorElement: <NotFound />,
-    children: [
-      { index: true, element: <HomePage /> },
-      { path: '/login', element: <LoginPage /> },
-      { path: '/logout', action: logoutAction },
-      {
-        path: '/spa',
-        element: <SpaPage />,
-        loader: authService.checkAuthLoader,
-        children: [],
-      },
-    ],
+    element: <HomePage />,
+  },
+  { path: '/login', element: <LoginPage /> },
+  { path: '/logout', action: logoutAction },
+  {
+    path: '/spa',
+    element: <SpaPage />,
+    // loader: authService.checkAuthLoader,
+    children: [{ index: true, element: <VentilatorsList /> }],
   },
 ]);
+// const router = createBrowserRouter([
+//   {
+//     path: '/',
+//     element: <MainLayout />,
+//     errorElement: <NotFound />,
+//     children: [
+//       { index: true, element: <HomePage /> },
+//       { path: '/login', element: <LoginPage /> },
+//       { path: '/logout', action: logoutAction },
+//       {
+//         path: '/spa',
+//         element: <SpaPage />,
+//         loader: authService.checkAuthLoader,
+//         children: [],
+//       },
+//     ],
+//   },
+// ]);
 
 export default router;
