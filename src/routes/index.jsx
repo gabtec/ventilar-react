@@ -1,0 +1,35 @@
+import React from 'react';
+import { createBrowserRouter } from 'react-router-dom';
+
+/* -- Pages -- */
+import MainLayout from '../layout/MainLayout';
+import HomePage from '../pages/HomePage';
+import LoginPage from '../pages/LoginPage';
+import SpaPage from '../pages/SpaPage';
+/* -- loaders -- */
+import * as authService from '../utils/auth-service';
+/* -- actions -- */
+import { logoutAction } from '../pages/LogoutPage';
+
+import NotFound from '../pages/Error404';
+
+const router = createBrowserRouter([
+  {
+    path: '/',
+    element: <MainLayout />,
+    errorElement: <NotFound />,
+    children: [
+      { index: true, element: <HomePage /> },
+      { path: '/login', element: <LoginPage /> },
+      { path: '/logout', action: logoutAction },
+      {
+        path: '/spa',
+        element: <SpaPage />,
+        loader: authService.checkAuthLoader,
+        children: [],
+      },
+    ],
+  },
+]);
+
+export default router;

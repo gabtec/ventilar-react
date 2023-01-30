@@ -1,0 +1,16 @@
+.gt-logo {
+  background-image: url('../assets/xgeeks_logo_member_white.svg');
+  background-repeat: no-repeat;
+  width: 120px;
+  height: 100px;
+
+  margin: 0 auto;
+}
+
+.gt-title {
+  font-size: 5rem !important;
+}
+
+.gt-hero {
+  margin-top: 10%;
+}
