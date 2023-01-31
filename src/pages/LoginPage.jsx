@@ -35,7 +35,7 @@ function LoginPage() {
     const username = '4000';
     const password = 'sofia';
     // const username = usernameRef.current?.value;
-    // const password = usernameRef.current?.value;
+    // const password = passwordRef.current?.value;
 
     try {
       const resp = await login(username, password);

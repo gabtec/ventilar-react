@@ -1,5 +1,6 @@
 import ListWithoutItems from './ListWithoutItems';
 import VentilatorsItem from './VentilatorsItem';
+import SelectVentCatModal from './SelectVentCat.modal';
 
 import { store } from '../store/';
 import { useEffect, useState, useCallback } from 'react';
@@ -12,6 +13,7 @@ function VentilatorsList() {
 
   const [vents, setVents] = useState([]);
   const [isEmpty, setIsEmpty] = useState(true);
+  const [modalIsActive, setModalIsActive] = useState(false);
   // const vents = [
   //   // { id: 1, brand: 'Philips' },
   //   // { id: 2, brand: 'Zoll' },
@@ -51,22 +53,43 @@ function VentilatorsList() {
     // getList(authStore.authUser.workplace_id);
   }, []);
 
-  return (
-    <div className="columns is-centered pt-5">
-      <div className="column is-three-quarters">
-        <div className="title">
-          Lista de Ventiladores:{' '}
-          <span className="is-italic is-size-5">[{wardName}]</span>
-        </div>
-        {isEmpty && <ListWithoutItems />}
+  function toggleModal() {
+    setModalIsActive((prev) => !prev);
+  }
 
-        {!isEmpty &&
-          vents.map((item) => (
-            <VentilatorsItem key={item.id} ventilator={item} />
-          ))}
-        <button className="button is-info is-pulled-right">Adicionar</button>
+  function ventSelectionHandler(event) {
+    const vent = event.target.getAttribute('data-vent-cat');
+    console.log('selected ' + vent);
+  }
+
+  return (
+    <>
+      <div className="columns is-centered pt-5">
+        <div className="column is-three-quarters">
+          <div className="title">
+            Lista de Ventiladores:{' '}
+            <span className="is-italic is-size-5">[{wardName}]</span>
+          </div>
+          {isEmpty && <ListWithoutItems />}
+
+          {!isEmpty &&
+            vents.map((item) => (
+              <VentilatorsItem key={item.id} ventilator={item} />
+            ))}
+          <button
+            className="button is-info is-pulled-right"
+            onClick={toggleModal}
+          >
+            Adicionar
+          </button>
+        </div>
       </div>
-    </div>
+      <SelectVentCatModal
+        isActive={modalIsActive}
+        closeModalEvent={toggleModal}
+        getModalSelectionEvent={ventSelectionHandler}
+      />
+    </>
   );
 }
 
