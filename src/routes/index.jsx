@@ -22,56 +22,46 @@ const router = createBrowserRouter([
     path: '/',
     element: <HomePage />,
   },
-  { path: '/login', element: <LoginPage /> },
-  { path: '/logout', action: logoutAction },
   {
     path: '/spa',
-    // element: <ProtectedRoutes />,
     element: <SpaPage />,
-    children: [
-      // {
-      //   path: '',
-      //   element: <SpaPage />,
-      //   // loader: authService.checkAuthLoader,
-      //   children: [
-      {
-        index: true,
-        element: <OrdersList />,
-      },
-      {
-        path: 'ventilators/available/:cat',
-        element: <SpaConsumerAvailableVentsPage />,
-      },
-      {
-        path: 'orders/new/:cat',
-        element: <OrderCreate />,
-      },
-      //   ],
-      // },
-    ],
   },
+  // {
+  //   path: '/',
+  //   element: <HomePage />,
+  // },
+  // { path: '/login', element: <LoginPage /> },
+  // { path: '/logout', action: logoutAction },
+  // {
+  //   path: '/spa',
+  //   // element: <ProtectedRoutes />,
+  //   element: <SpaPage />,
+  //   children: [
+  //     // {
+  //     //   path: '',
+  //     //   element: <SpaPage />,
+  //     //   // loader: authService.checkAuthLoader,
+  //     //   children: [
+  //     {
+  //       index: true,
+  //       element: <OrdersList />,
+  //     },
+  //     {
+  //       path: 'ventilators/available/:cat',
+  //       element: <SpaConsumerAvailableVentsPage />,
+  //     },
+  //     {
+  //       path: 'orders/new/:cat',
+  //       element: <OrderCreate />,
+  //     },
+  //     //   ],
+  //     // },
+  //   ],
+  // },
   {
     path: '*',
     element: <NotFound />,
   },
 ]);
-// const router = createBrowserRouter([
-//   {
-//     path: '/',
-//     element: <MainLayout />,
-//     errorElement: <NotFound />,
-//     children: [
-//       { index: true, element: <HomePage /> },
-//       { path: '/login', element: <LoginPage /> },
-//       { path: '/logout', action: logoutAction },
-//       {
-//         path: '/spa',
-//         element: <SpaPage />,
-//         loader: authService.checkAuthLoader,
-//         children: [],
-//       },
-//     ],
-//   },
-// ]);
 
 export default router;

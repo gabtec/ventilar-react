@@ -6,15 +6,12 @@
   background-color: aquamarine;
 }
 
-.gt_home_container > section {
+/* .gt_home_container > section {
   padding-top: 10%;
   text-align: center;
-  /* border: 3px solid red; */
-  /* background-color: yellow !important; */
 }
 
 .gt_home_container > footer {
-  /* background-color: blueviolet !important; */
   background-color: aquamarine;
   padding: 1rem;
 }
@@ -31,4 +28,4 @@
 
 .gt_title_5r {
   font-size: 5rem !important;
-}
+} */

@@ -1,23 +1,35 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import useAuthUser from '../hooks/useAuthUser';
 
 import MainLayout from '../layout/MainLayout';
 import LoginPage from '../pages/LoginPage';
 
-import { store } from '../store/';
-
 function SpaPage() {
-  console.log('on spa');
-  console.log('on protected routes');
-  const { isLoggedIn } = store.getState().auth;
-  console.log('isLoggedIn: ' + isLoggedIn);
+  const navigate = useNavigate();
+  const user = useAuthUser();
+  console.log(user);
 
-  // return <MainLayout></MainLayout>;
-  return (
-    <>
-      {isLoggedIn && <MainLayout />}
-      {!isLoggedIn && <LoginPage />}
-    </>
-  );
+  useEffect(() => {
+    if (!user) {
+      console.log('run once');
+      navigate('/');
+    }
+  }, []);
+
+  return <p>SPA PAGE</p>;
+  // console.log('on spa');
+  // console.log('on protected routes');
+  // const { isLoggedIn } = store.getState().auth;
+  // console.log('isLoggedIn: ' + isLoggedIn);
+
+  // // return <MainLayout></MainLayout>;
+  // return (
+  //   <>
+  //     {isLoggedIn && <MainLayout />}
+  //     {!isLoggedIn && <LoginPage />}
+  //   </>
+  // );
 }
 
 export default SpaPage;
