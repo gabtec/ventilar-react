@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { useLocation, useSubmit } from 'react-router-dom';
+import { useSubmit } from 'react-router-dom';
 import { authStoreActions } from '../store/auth/auth.store';
 
 function NavbarLayout(props) {
@@ -9,7 +9,6 @@ function NavbarLayout(props) {
 
   const submit = useSubmit();
   const dispatch = useDispatch();
-  const location = useLocation();
 
   function logoutHandler() {
     dispatch(authStoreActions.clearAuthData(''));
@@ -64,20 +63,16 @@ function NavbarLayout(props) {
         <div className="navbar-end">
           <div className="navbar-item">
             <div className="buttons">
-              {/* <a className="button is-primary">
-                  <strong>Sign up</strong>
-                </a>
-                <a className="button is-light">Log in</a> */}
-              {props.isLoggedIn && (
-                <a className="button is-primary is-outlined">
+              {/* user info */}
+              {props.username && (
+                <a className="button is-primary is-outlined" disabled>
                   <strong>{props.username}</strong>
                 </a>
               )}
-              {props.isLoggedIn && (
-                <a className="button is-primary" onClick={logoutHandler}>
-                  <strong>Log out</strong>
-                </a>
-              )}
+
+              <button className="button is-primary" onClick={logoutHandler}>
+                <strong>Log out</strong>
+              </button>
             </div>
           </div>
         </div>

@@ -11,11 +11,6 @@ export const authSlice = createSlice({
   name: 'authStore',
   initialState: state,
   reducers: {
-    example(state, action) {
-      console.log('dispatch example');
-      // we can mutate state here....
-      // state.value += action.payload;
-    },
     storeAuthData(state, action) {
       state.authUser = action.payload.user;
       state.accessToken = action.payload.accessToken;

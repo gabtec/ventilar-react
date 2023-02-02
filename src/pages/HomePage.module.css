@@ -5,27 +5,3 @@
   grid-template-rows: 1fr auto;
   background-color: aquamarine;
 }
-
-/* .gt_home_container > section {
-  padding-top: 10%;
-  text-align: center;
-}
-
-.gt_home_container > footer {
-  background-color: aquamarine;
-  padding: 1rem;
-}
-
-.gt_logo {
-  background-image: url('../assets/xgeeks_logo_member_white.svg');
-  background-repeat: no-repeat;
-  width: 120px;
-  height: 100px;
-
-  margin: 0 auto;
-  align-content: center;
-}
-
-.gt_title_5r {
-  font-size: 5rem !important;
-} */

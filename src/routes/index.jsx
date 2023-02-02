@@ -1,21 +1,15 @@
 import React from 'react';
 import { createBrowserRouter } from 'react-router-dom';
 
-/* -- Pages -- */
-import MainLayout from '../layout/MainLayout';
+/* -- Main Pages -- */
 import HomePage from '../pages/HomePage';
-import LoginPage from '../pages/LoginPage';
 import SpaPage from '../pages/SpaPage';
-import ProtectedRoutes from '../layout/ProtectedRoutes';
-/* -- loaders -- */
-import * as authService from '../utils/auth-service';
-/* -- actions -- */
-import { logoutAction } from '../pages/LogoutPage';
-
 import NotFound from '../pages/Error404';
+
+/* -- SPA Sub Pages -- */
 import OrdersList from '../components/OrdersList';
 import OrderCreate from '../components/OrderCreate';
-import SpaConsumerAvailableVentsPage from '../pages/SpaConsumerAvailableVentsPage';
+import SpaConsumerAvailableVentsPage from '../pages/SpaSubPages/SpaConsumerAvailableVentsPage';
 
 const router = createBrowserRouter([
   {
@@ -25,39 +19,8 @@ const router = createBrowserRouter([
   {
     path: '/spa',
     element: <SpaPage />,
+    children: [{ index: true, element: <p>Lista conforme o role</p> }],
   },
-  // {
-  //   path: '/',
-  //   element: <HomePage />,
-  // },
-  // { path: '/login', element: <LoginPage /> },
-  // { path: '/logout', action: logoutAction },
-  // {
-  //   path: '/spa',
-  //   // element: <ProtectedRoutes />,
-  //   element: <SpaPage />,
-  //   children: [
-  //     // {
-  //     //   path: '',
-  //     //   element: <SpaPage />,
-  //     //   // loader: authService.checkAuthLoader,
-  //     //   children: [
-  //     {
-  //       index: true,
-  //       element: <OrdersList />,
-  //     },
-  //     {
-  //       path: 'ventilators/available/:cat',
-  //       element: <SpaConsumerAvailableVentsPage />,
-  //     },
-  //     {
-  //       path: 'orders/new/:cat',
-  //       element: <OrderCreate />,
-  //     },
-  //     //   ],
-  //     // },
-  //   ],
-  // },
   {
     path: '*',
     element: <NotFound />,

@@ -1,4 +1,4 @@
-import VentilatorsList from '../components/VentilatorsList';
+import VentilatorsList from '../../components/VentilatorsList';
 
 const ventsList = [
   // {

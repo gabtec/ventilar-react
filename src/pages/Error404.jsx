@@ -1,5 +1,4 @@
 import React from 'react';
-import classes from './HomePage.module.css';
 import css from './Error404.module.css';
 
 function NotFound() {
@@ -8,8 +7,6 @@ function NotFound() {
       <section className="hero has-text-centered">
         <div className=" mt-6">
           <p className="title mt-6 is-size-1">ventil≋AR</p>
-          {/* <p className="subtitle">sponsored by</p>
-          <div className={classes.gt_logo}></div> */}
         </div>
       </section>
       <section className="section has-background-white">
