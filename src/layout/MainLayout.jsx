@@ -7,7 +7,8 @@ import NavbarLayout from './NavbarLayout';
 
 function MainLayout() {
   const authStore = store.getState().auth;
-
+  // console.log('on main layout called by spa ');
+  // console.log(authStore);
   return (
     <>
       <main className={classes.gt_spa_container}>

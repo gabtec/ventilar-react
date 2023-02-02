@@ -1,4 +1,5 @@
 import ReactDOM from 'react-dom';
+import { Link } from 'react-router-dom';
 
 function SelectVentCatModal({
   isActive,
@@ -21,7 +22,7 @@ function SelectVentCatModal({
               </p>
             </header>
             <section className="modal-card-body is-justify-content-center">
-              <button
+              {/* <button
                 data-vent-cat="VI"
                 className="button is-large"
                 onClick={getModalSelectionEvent}
@@ -34,7 +35,19 @@ function SelectVentCatModal({
                 onClick={getModalSelectionEvent}
               >
                 VNI
-              </button>
+              </button> */}
+              <Link
+                to="/spa/ventilators/available/vi"
+                className="button is-large"
+              >
+                VI
+              </Link>
+              <Link
+                to="/spa/ventilators/available/vni"
+                className="button is-large"
+              >
+                VNI
+              </Link>
             </section>
             <footer className="modal-card-foot is-justify-content-flex-end">
               <button className="button" onClick={closeModalEvent}>

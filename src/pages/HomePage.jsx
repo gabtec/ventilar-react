@@ -1,6 +1,9 @@
+import classes from './HomePage.module.css';
+
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import classes from './HomePage.module.css';
+
+import LoginForm from '../components/LoginForm';
 
 function HomePage() {
   const navigate = useNavigate();

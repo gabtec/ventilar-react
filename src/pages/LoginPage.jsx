@@ -50,10 +50,12 @@ function LoginPage() {
       // 200 OK
       setHasErrors(false);
       const data = await resp.json();
-
+      // console.log(data);
+      console.log('dispatch to store');
       // localStorage.setItem('isIN', 'true');
       dispatch(authStoreActions.storeAuthData(data));
       console.log('store updated');
+      console.log('will nav to /spa');
       navigate('/spa');
     } catch (error) {
       setHasErrors(true);
@@ -79,7 +81,7 @@ function LoginPage() {
             <form onSubmit={submitHandler}>
               {/* -- username */}
               <div className="field">
-                <label className="label" htmlFor="username">
+                <label id="gt-label" className="label" htmlFor="username">
                   Utilizador:
                 </label>
                 <div className="control">

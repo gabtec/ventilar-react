@@ -1,4 +1,18 @@
-function VentilatorsItem(props) {
+import { useNavigate } from 'react-router-dom';
+import { store } from '../store';
+
+import { useDispatch } from 'react-redux';
+import { orderStoreActions } from '../store/order/order.store';
+
+function VentilatorsItemByWard({ ventilator }) {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  function selectParkHandler() {
+    dispatch(orderStoreActions.storeSelectedPark(ventilator));
+    navigate(`/spa/orders/new/${ventilator.ventCategory}`);
+  }
+
   return (
     <div className="box">
       <article className="media">
@@ -11,29 +25,22 @@ function VentilatorsItem(props) {
         <div className="media-content">
           <div className="content">
             <p>
-              <strong>{props.ventilator.brand}</strong>{' '}
-              <span>{props.ventilator.model}</span>
-              <span>
-                {' '}
-                <strong>---{'>'}</strong> Localização:{' '}
-                {props.ventilator.park.name}
-              </span>
-            </p>
-            <p>
-              <strong>
-                <small>S/N: [{props.ventilator.serial}]</small> <br />
-              </strong>
-            </p>
-            <p>
-              <small>
-                <strong>Categoria: </strong>
-                <span>{props.ventilator.category}</span>
-              </small>
+              <strong>{ventilator.wardName}</strong>{' '}
+              <span>Available: {ventilator.ventsAvailable}</span>
             </p>
             <p className="is-pulled-right">
-              <button className="button is-small is-outlined is-info">
+              <button
+                className="button is-small is-outlined is-info"
+                onClick={selectParkHandler}
+              >
                 Requisitar
               </button>
+              {/* <Link
+                to={`/spa/orders/new/${ventilator.ventCategory}_${ventilator.wardID}`}
+                className="button is-small is-outlined is-info"
+              >
+                Requisitar
+              </Link> */}
             </p>
           </div>
           <nav className="level is-mobile">
@@ -61,4 +68,4 @@ function VentilatorsItem(props) {
   );
 }
 
-export default VentilatorsItem;
+export default VentilatorsItemByWard;

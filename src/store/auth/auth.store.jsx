@@ -17,15 +17,15 @@ export const authSlice = createSlice({
       // state.value += action.payload;
     },
     storeAuthData(state, action) {
-      console.log('writting to store');
-      console.log(action.payload); // payload = {user, accessToken, refreshToken}
+      // console.log('writting to store');
+      // console.log(action.payload); // payload = {user, accessToken, refreshToken}
       state.authUser = action.payload.user;
       state.accessToken = action.payload.accessToken;
       state.refreshToken = action.payload.refreshToken;
       state.isLoggedIn = true;
     },
     clearAuthData(state, action) {
-      console.log('call clear');
+      // console.log('call clear');
       state.authUser = {};
       state.accessToken = undefined;
       state.refreshToken = undefined;
