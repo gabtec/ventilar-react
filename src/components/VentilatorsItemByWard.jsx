@@ -10,7 +10,7 @@ function VentilatorsItemByWard({ ventilator }) {
 
   function selectParkHandler() {
     dispatch(orderStoreActions.storeSelectedPark(ventilator));
-    navigate(`/spa/orders/new/${ventilator.ventCategory}`);
+    navigate(`/spa/orders/create/${ventilator.ventCategory}`);
   }
 
   return (
@@ -24,24 +24,31 @@ function VentilatorsItemByWard({ ventilator }) {
         </figure>
         <div className="media-content">
           <div className="content">
-            <p>
-              <strong>{ventilator.wardName}</strong>{' '}
-              <span>Available: {ventilator.ventsAvailable}</span>
-            </p>
-            <p className="is-pulled-right">
-              <button
-                className="button is-small is-outlined is-info"
-                onClick={selectParkHandler}
-              >
-                Requisitar
-              </button>
-              {/* <Link
-                to={`/spa/orders/new/${ventilator.ventCategory}_${ventilator.wardID}`}
-                className="button is-small is-outlined is-info"
-              >
-                Requisitar
-              </Link> */}
-            </p>
+            <div className="columns">
+              <div className="column is-12">
+                <p>
+                  <strong>{ventilator.wardName}</strong>{' '}
+                </p>
+              </div>
+            </div>
+            <div className="columns">
+              <div className="column is-12">
+                <p>
+                  <span>Available: {ventilator.ventsAvailable}</span>
+                </p>
+              </div>
+            </div>
+            <div className="columns">
+              <div className="column is-offset-9 is-2">
+                <button
+                  className="button is-outlined is-info"
+                  onClick={selectParkHandler}
+                >
+                  <box-icon color="blue" name="list-check" />
+                  <span className="ml-2">Requisitar</span>
+                </button>
+              </div>
+            </div>
           </div>
           <nav className="level is-mobile">
             <div className="level-left">

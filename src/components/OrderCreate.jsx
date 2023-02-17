@@ -42,6 +42,7 @@ function VentilatorOrder() {
   function formSubmitHandler(event) {
     event.preventDefault();
     const order = {
+      order_type: cat,
       patient_name: patient,
       patient_bed: parseInt(bed, 10),
       obs: obs,

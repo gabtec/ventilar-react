@@ -7,7 +7,6 @@ import MainLayout from '../layout/MainLayout';
 function SpaPage() {
   const navigate = useNavigate();
   const user = useAuthUser();
-  console.log(user);
 
   useEffect(() => {
     if (!user) {

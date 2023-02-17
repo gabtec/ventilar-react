@@ -1,4 +1,4 @@
-function VentilatorsItem(props) {
+function VentilatorsItem({ ventilator }) {
   return (
     <div className="box">
       <article className="media">
@@ -11,28 +11,28 @@ function VentilatorsItem(props) {
         <div className="media-content">
           <div className="content">
             <p>
-              <strong>{props.ventilator.brand}</strong>{' '}
-              <span>{props.ventilator.model}</span>
+              <strong>{ventilator.brand}</strong>{' '}
+              <span>{ventilator.model}</span>
               <span>
                 {' '}
-                <strong>---{'>'}</strong> Localização:{' '}
-                {props.ventilator.park.name}
+                <strong>---{'>'}</strong> Localização: {ventilator.park.name}
               </span>
             </p>
             <p>
               <strong>
-                <small>S/N: [{props.ventilator.serial}]</small> <br />
+                <small>S/N: [{ventilator.serial}]</small> <br />
               </strong>
             </p>
             <p>
               <small>
                 <strong>Categoria: </strong>
-                <span>{props.ventilator.category}</span>
+                <span>{ventilator.category}</span>
               </small>
             </p>
             <p className="is-pulled-right">
               <button className="button is-small is-outlined is-info">
-                Requisitar
+                <box-icon color="blue" name="list-check" />
+                <span className="ml-2">Requisitar</span>
               </button>
             </p>
           </div>

@@ -7,7 +7,7 @@ import { useEffect, useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useFetch from '../hooks/useFetch';
 
-function VentilatorsList() {
+function AvailableVentilatorsList() {
   console.log(' on ventilators list');
   const navigate = useNavigate();
 
@@ -110,4 +110,4 @@ function VentilatorsList() {
   );
 }
 
-export default VentilatorsList;
+export default AvailableVentilatorsList;

@@ -1,10 +1,10 @@
 import { Link, useParams } from 'react-router-dom';
-import ListWithoutItems from './ListWithoutItems';
-import VentilatorsItemByWard from './VentilatorsItemByWard';
-import { store } from '../store';
-import useFetch from '../hooks/useFetch';
+import ListWithoutItems from '../../components/ListWithoutItems';
+import VentilatorsItemByWard from '../../components/VentilatorsItemByWard';
+import { store } from '../../store';
+import useFetch from '../../hooks/useFetch';
 
-function VentilatorsList(props) {
+function AvailableVentilatorsList(props) {
   const token = store.getState().auth.accessToken;
   const params = useParams();
   const url = `http://localhost:3002/api/ventilators/?status=free&cat=${params.cat.toUpperCase()}`;
@@ -19,14 +19,16 @@ function VentilatorsList(props) {
     <>
       <div className="columns is-centered pt-5">
         <div className="column is-three-quarters">
-          <div className="title">{props.pageTitle}</div>
+          <div className="title">Lista de Ventiladores Disponíveis:</div>
+
           {loading && <ListWithoutItems />}
           {!loading &&
             value.map((item) => (
               <VentilatorsItemByWard key={item.wardID} ventilator={item} />
             ))}
           <Link to="/spa" className="button is-info is-pulled-right">
-            Voltar
+            <box-icon color="white" name="chevron-left-circle" />
+            <span className="ml-2">Voltar</span>
           </Link>
         </div>
       </div>
@@ -34,4 +36,4 @@ function VentilatorsList(props) {
   );
 }
 
-export default VentilatorsList;
+export default AvailableVentilatorsList;

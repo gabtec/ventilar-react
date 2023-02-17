@@ -12,7 +12,6 @@ import { authStoreActions } from '../store/auth/auth.store';
  * COMPONENT
  */
 function HomePage() {
-  console.log('on home');
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -23,8 +22,11 @@ function HomePage() {
 
   function handleSubmmit(username, password) {
     // bypass
-    setUsername('3428');
-    setPassword('gabriel');
+    // setUsername('3428');
+    // setPassword('gabriel');
+    setUsername('4000');
+    setPassword('simao');
+    console.log('login is bypassed');
     // if (username === '' || password === '') {
     //   setLoginError('Deve inserir as credênciais!');
     //   return;
@@ -48,13 +50,6 @@ function HomePage() {
     });
   }, [username, password]);
 
-  // useEffect(() => {
-  //   if (!isAuthenticated) {
-  //     return;
-  //   } else {
-  //     navigate('/spa');
-  //   }
-  // }, [isAuthenticated]);
   return (
     <div className={classes.gt_home_container}>
       <div className="columns is-vcentered">
@@ -92,6 +87,12 @@ function HomePage() {
 
 export default HomePage;
 
+/**
+ * Helper functions
+ * @param {string} username
+ * @param {string} password
+ * @returns
+ */
 async function sendLogin(username, password) {
   const resp = await fetch('http://localhost:3002/api/auth/login', {
     method: 'post',

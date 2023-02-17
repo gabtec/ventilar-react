@@ -2,21 +2,24 @@ import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { orderStoreActions } from '../store/order/order.store';
 
-function VentilatorsItem(props) {
+function OrdersItem({ order, deliverEvent }) {
+  const isPending = order.status === 'PENDING';
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   // console.log(props);
   function editHandler() {
     console.log('on editar');
-    console.log(props);
-    dispatch(orderStoreActions.storeSelectedOrder(props.order));
-    navigate(`/spa/orders/new/${ventilator.ventCategory}`);
+    console.log(order);
+    dispatch(orderStoreActions.storeSelectedOrder(order));
+    navigate(`/spa/orders/new/${order.ventCategory}`);
   }
 
   function returnHandler() {
-    console.log('on devolver');
+    dispatch(orderStoreActions.storeSelectedOrder(order));
+    deliverEvent(order);
   }
+
   return (
     <div className="box">
       <article className="media">
@@ -29,20 +32,32 @@ function VentilatorsItem(props) {
         <div className="media-content">
           <div className="content">
             <p>
-              <strong>{props.ventilator.patient_name}</strong>{' '}
-              <small>@cama [{props.ventilator.patient_bed}]</small> <br />
-              <strong>{props.ventilator.category}</strong>
-              <small>
-                {/* {props.ventilator.brand + ' ' + props.ventilator.model} */}
-                {'Philips' + ' ' + 'Trilogy 3000'}
-              </small>
+              <strong>{order.patient_name}</strong>{' '}
+              <small>@cama [{order.patient_bed}]</small> <br />
+              <strong>{order.category}</strong>
+              {isPending && (
+                <small className="is-italic">Aguarda atribuição...</small>
+              )}
+              {!isPending && (
+                <>
+                  <small className="is-italic">
+                    {order.ventilator.brand + ' ' + order.ventilator.model}
+                  </small>
+                  <br />
+                  <small className="is-size-7 is-italic">
+                    S/N: {order.ventilator.serial}
+                  </small>
+                </>
+              )}
             </p>
             <div className="columns">
               <div className="column is-2">
-                <button className="button is-small is-outlined is-warning">
-                  <strong>Status: </strong>
-                  {props.ventilator.status}
-                </button>
+                {isPending && (
+                  <span className="tag is-warning">{order.status}</span>
+                )}
+                {!isPending && (
+                  <span className="tag is-success">{order.status}</span>
+                )}
               </div>
               <div className="column is-offset-6 is-8">
                 <button
@@ -54,6 +69,7 @@ function VentilatorsItem(props) {
                 <button
                   className="button is-small is-outlined is-info"
                   onClick={returnHandler}
+                  disabled={order.status === 'PENDING'}
                 >
                   Devolver
                 </button>
@@ -85,4 +101,4 @@ function VentilatorsItem(props) {
   );
 }
 
-export default VentilatorsItem;
+export default OrdersItem;
