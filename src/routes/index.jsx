@@ -11,6 +11,7 @@ import NotFound from '../pages/Error404';
 import InitialListByRole from '../pages/SpaSubPages/InitialListByRole';
 import AvailableVentilatorsList from '../pages/SpaSubPages/AvailableVentilatorsList';
 import OrderCreate from '../components/OrderCreate';
+import OrderEdit from '../components/OrderEdit';
 
 const router = createBrowserRouter([
   {
@@ -27,6 +28,7 @@ const router = createBrowserRouter([
         element: <AvailableVentilatorsList />,
       },
       { path: 'orders/create/:cat', element: <OrderCreate /> },
+      { path: 'orders/edit/:id', element: <OrderEdit /> },
     ],
   },
   {

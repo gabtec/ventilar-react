@@ -12,7 +12,7 @@ function OrdersItem({ order, deliverEvent }) {
     console.log('on editar');
     console.log(order);
     dispatch(orderStoreActions.storeSelectedOrder(order));
-    navigate(`/spa/orders/new/${order.ventCategory}`);
+    navigate(`/spa/orders/edit/${order.id}`);
   }
 
   function returnHandler() {
