@@ -15,13 +15,6 @@ function InitialListByRole() {
 
   const [modalIsActive, setModalIsActive] = useState(false);
 
-  function getProperContent(role) {
-    if (role === 'admin') return <AdminHomeList />;
-    if (role === 'dispatcher')
-      return <DispatcherHomeList openModalEvent={toggleModal} />;
-    return <ConsumerHomeList openModalEvent={toggleModal} />;
-  }
-
   function ventSelectionHandler(event) {
     const ventCat = event.target.getAttribute('data-vent-cat');
     setSelectedVentCat(ventCat);
@@ -30,6 +23,13 @@ function InitialListByRole() {
   function toggleModal() {
     console.log('call op modal');
     setModalIsActive((prev) => !prev);
+  }
+
+  function getProperContent(role) {
+    if (role === 'admin') return <AdminHomeList />;
+    if (role === 'dispatcher')
+      return <DispatcherHomeList openModalEvent={toggleModal} />;
+    return <ConsumerHomeList openModalEvent={toggleModal} />;
   }
 
   return (

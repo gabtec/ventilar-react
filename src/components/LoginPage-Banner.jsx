@@ -1,4 +1,4 @@
-import css from './HomeBanner.module.css';
+import css from './LoginPage-Banner.module.css';
 
 function HomeBanner() {
   return (

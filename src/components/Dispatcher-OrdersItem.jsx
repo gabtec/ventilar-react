@@ -2,22 +2,26 @@ import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { orderStoreActions } from '../store/order/order.store';
 
-function OrdersItem({ order, deliverEvent }) {
+// function OrdersItem({ order, deliverEvent }) {
+function OrdersItem({ order, answerEvent, acceptEvent }) {
   const hasVentilator = order.ventilator ? true : false;
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
+  // const dispatch = useDispatch();
+  // const navigate = useNavigate();
 
-  // console.log(props);
   function editHandler() {
-    console.log('on editar');
-    console.log(order);
-    dispatch(orderStoreActions.storeSelectedOrder(order));
-    navigate(`/spa/orders/edit/${order.id}`);
+    window.alert('TODO: editHandler');
+    // console.log('on editar');
+    // console.log(order);
+    // dispatch(orderStoreActions.storeSelectedOrder(order));
+    // navigate(`/spa/orders/edit/${order.id}`);
   }
 
-  function returnHandler() {
-    dispatch(orderStoreActions.storeSelectedOrder(order));
-    deliverEvent(order);
+  function respondHandler() {
+    answerEvent(order.id);
+  }
+
+  function acceptHandler() {
+    acceptEvent(order);
   }
 
   return (
@@ -26,7 +30,6 @@ function OrdersItem({ order, deliverEvent }) {
         <figure className="media-left">
           <p className="image is-64x64">
             <img src="https://cdn.bimedis.com/img/vimg/1835150/big" />
-            {/* <img src="../assets/trilogy-3000.png" /> */}
           </p>
         </figure>
         <div className="media-content">
@@ -58,20 +61,29 @@ function OrdersItem({ order, deliverEvent }) {
                   <span className="tag is-success">{order.status}</span>
                 )} */}
               </div>
-              <div className="column is-offset-6 is-8">
-                <button
-                  className="button is-small is-outlined is-info mr-2"
-                  onClick={editHandler}
-                >
-                  Editar
-                </button>
-                <button
-                  className="button is-small is-outlined is-info"
-                  onClick={returnHandler}
-                  disabled={order.status !== 'DISPATCHED'}
-                >
-                  Devolver
-                </button>
+              <div className="column">
+                <div className="buttons is-right">
+                  <button
+                    className="button is-small is-outlined is-info mr-2"
+                    onClick={editHandler}
+                  >
+                    Editar
+                  </button>
+                  <button
+                    className="button is-small is-outlined is-info"
+                    onClick={respondHandler}
+                    disabled={order.status !== 'PENDING'}
+                  >
+                    Responder
+                  </button>
+                  <button
+                    className="button is-small is-outlined is-info"
+                    onClick={acceptHandler}
+                    disabled={order.status !== 'RETURNED'}
+                  >
+                    Receber
+                  </button>
+                </div>
               </div>
             </div>
           </div>

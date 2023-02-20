@@ -7,7 +7,7 @@ import useFetch from '../../hooks/useFetch';
 function AvailableVentilatorsList(props) {
   const token = store.getState().auth.accessToken;
   const params = useParams();
-  const url = `http://localhost:3002/api/ventilators/?status=free&cat=${params.cat.toUpperCase()}`;
+  const url = `http://localhost:3002/api/ventilators/?status=true&cat=${params.cat.toUpperCase()}`;
 
   const { loading, error, value } = useFetch(
     url,

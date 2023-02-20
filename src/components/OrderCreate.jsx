@@ -49,7 +49,7 @@ function VentilatorOrder() {
       to_id: selectedPark.wardID,
       from_id: authUser.workplace_id,
       requested_by: `(${authUser.mec}) ${authUser.name}`, //'(3429) Pedro Martins',
-      ventilator_id: 0, // to be null. Who dispacthes, selects
+      // ventilator_id: 0, // to be null. Who dispacthes, selects
     };
     console.log('form handler');
     console.log(order);

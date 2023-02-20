@@ -2,10 +2,11 @@ import React from 'react';
 import { createBrowserRouter } from 'react-router-dom';
 
 /* -- Main Pages -- */
-import HomePage from '../pages/HomePage';
+import LoginPage from '../pages/LoginPage';
 import SpaPage from '../pages/SpaPage';
-import { logoutAction } from '../pages/LogoutPage';
 import NotFound from '../pages/Error404';
+
+import { logoutAction } from '../pages/LogoutPage';
 
 /* -- SPA Sub Pages -- */
 import InitialListByRole from '../pages/SpaSubPages/InitialListByRole';
@@ -16,7 +17,7 @@ import OrderEdit from '../components/OrderEdit';
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <HomePage />,
+    element: <LoginPage />,
   },
   {
     path: '/spa',

@@ -19,18 +19,24 @@ function ConsumerHomeList({ openModalEvent }) {
   const selectedOrder = useSelectedOrder();
 
   useEffect(() => {
+    if (!refreshPage) return;
+
     getData(user.workplace_id, token).then((resp) => {
       if (resp.error) {
         console.log(resp.error);
         // setIsEmpty(true);
       } else {
+        console.log(orders);
         setOrders(resp.data);
         // setIsEmpty(false);
       }
     });
+
+    setRefreshPage(false);
   }, [refreshPage]);
 
   function refreshListHandler() {
+    console.log('requested update');
     setRefreshPage(true);
   }
 
@@ -126,8 +132,6 @@ export default ConsumerHomeList;
  * Helper functions
  */
 async function returnVentilatorToPark(order, token) {
-  const or = { ...order };
-  or.status = 'RETURNED';
   try {
     const resp = await fetch(`http://localhost:3002/api/orders/${order.id}`, {
       method: 'PATCH',
@@ -136,7 +140,12 @@ async function returnVentilatorToPark(order, token) {
         authorization: `Bearer ${token}`,
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(or),
+      body: JSON.stringify({
+        id: order.id,
+        status: 'RETURNED',
+        obs: order.obs,
+        ventilator_id: '' + order.ventilator_id,
+      }),
     });
 
     if (!resp.ok) {
@@ -145,6 +154,7 @@ async function returnVentilatorToPark(order, token) {
 
     return foundData(await resp.json());
   } catch (error) {
+    console.log(error);
     return foundError(error.message);
   }
 }

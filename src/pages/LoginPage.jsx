@@ -1,10 +1,10 @@
-import classes from './HomePage.module.css';
+import classes from './LoginPage.module.css';
 
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 
-import HomeBanner from '../components/HomeBanner';
+import LoginBanner from '../components/LoginPage-Banner';
 import LoginForm from '../components/LoginForm';
 import { authStoreActions } from '../store/auth/auth.store';
 
@@ -24,15 +24,16 @@ function HomePage() {
     // bypass
     // setUsername('3428');
     // setPassword('gabriel');
-    setUsername('4000');
-    setPassword('simao');
-    console.log('login is bypassed');
-    // if (username === '' || password === '') {
-    //   setLoginError('Deve inserir as credênciais!');
-    //   return;
-    // }
-    // setUsername(username);
-    // setPassword(password);
+    // setUsername('4000');
+    // setPassword('simao');
+    // console.log('login is bypassed');
+
+    if (username === '' || password === '') {
+      setLoginError('Deve inserir as credênciais!');
+      return;
+    }
+    setUsername(username);
+    setPassword(password);
   }
 
   useEffect(() => {
@@ -55,7 +56,7 @@ function HomePage() {
       <div className="columns is-vcentered">
         <div className="column is-8">
           <div className="columns is-centered">
-            <HomeBanner></HomeBanner>
+            <LoginBanner></LoginBanner>
           </div>
         </div>
         <div className="column is-4">
