@@ -7,11 +7,13 @@ import ListWithoutItems from './ListWithoutItems';
 import OrdersItem from './OrdersItem';
 import UserWithoutWardNotif from './UserWithoutWardNotif';
 import DeliverVentModal from './DeliverVent.modal';
-import useAxios from '../hooks/useAxios';
+import api from '../apiConnector/axios';
+import { useNavigate } from 'react-router-dom';
 
 function ConsumerHomeList({ openModalEvent }) {
   const user = useAuthUser();
   const token = useToken();
+  const navigate = useNavigate();
 
   const [orders, setOrders] = useState([]);
   // const [isEmpty, setIsEmpty] = useState(true);
@@ -23,6 +25,17 @@ function ConsumerHomeList({ openModalEvent }) {
   //   method: 'get',
   //   url: `/orders/?src=${user.workplace_id}`,
   // });
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const resp = await getData(user.workplace_id);
+        setOrders(resp.data);
+      } catch (error) {
+        console.error(error);
+      }
+    })();
+  }, []);
 
   // useEffect(() => {
   //   if (!refreshPage) return;
@@ -41,9 +54,19 @@ function ConsumerHomeList({ openModalEvent }) {
   //   setRefreshPage(false);
   // }, [refreshPage]);
 
-  function refreshListHandler() {
+  async function refreshListHandler() {
     console.log('requested update');
-    setRefreshPage(true);
+    // setRefreshPage(true);
+    try {
+      const resp = await getData(user.workplace_id);
+      console.log(resp.data);
+      setOrders(resp.data);
+    } catch (error) {
+      console.error(error);
+      console.log('resposta falhada do refresh');
+      navigate('/');
+      // console.error(error.response.data);
+    }
   }
 
   function returnVentHandler() {
@@ -165,27 +188,30 @@ async function returnVentilatorToPark(order, token) {
   }
 }
 
-async function getData(serviceID, token) {
-  try {
-    const resp = await fetch(
-      `http://localhost:3002/api/orders/?src=${serviceID}`,
-      {
-        method: 'get',
-        headers: {
-          authorization: `Bearer ${token}`,
-        },
-      }
-    );
-
-    if (!resp.ok) {
-      return foundNothing();
-    }
-
-    return foundData(await resp.json());
-  } catch (error) {
-    return foundError(error.message);
-  }
+async function getData(serviceID) {
+  return await api.get(`/orders/?src=${serviceID}`);
 }
+// async function getData(serviceID, token) {
+//   try {
+//     const resp = await fetch(
+//       `http://localhost:3002/api/orders/?src=${serviceID}`,
+//       {
+//         method: 'get',
+//         headers: {
+//           authorization: `Bearer ${token}`,
+//         },
+//       }
+//     );
+
+//     if (!resp.ok) {
+//       return foundNothing();
+//     }
+
+//     return foundData(await resp.json());
+//   } catch (error) {
+//     return foundError(error.message);
+//   }
+// }
 
 /**
  * Helper Functions

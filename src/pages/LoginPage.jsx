@@ -99,6 +99,7 @@ async function sendLogin(username, password) {
   try {
     const resp = await api.post('/auth/login', { username, password });
 
+    setAuthorizationHeader(resp.data.accessToken);
     return {
       isLoggedIn: true,
       data: resp.data,
