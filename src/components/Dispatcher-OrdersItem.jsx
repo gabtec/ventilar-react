@@ -1,6 +1,4 @@
-import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import { orderStoreActions } from '../store/order/order.store';
+import OrderStatusTag from './OrderStatus-tag';
 
 // function OrdersItem({ order, deliverEvent }) {
 function OrdersItem({ order, answerEvent, acceptEvent }) {
@@ -55,7 +53,8 @@ function OrdersItem({ order, answerEvent, acceptEvent }) {
             </p>
             <div className="columns">
               <div className="column is-2">
-                <span className="tag is-warning">{order.status}</span>
+                {/* <span className="tag is-warning">{order.status}</span> */}
+                <OrderStatusTag status={order.status}></OrderStatusTag>
 
                 {/* {!isPending && (
                   <span className="tag is-success">{order.status}</span>

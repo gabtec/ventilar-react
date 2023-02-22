@@ -7,6 +7,7 @@ import ListWithoutItems from './ListWithoutItems';
 import OrdersItem from './OrdersItem';
 import UserWithoutWardNotif from './UserWithoutWardNotif';
 import DeliverVentModal from './DeliverVent.modal';
+import useAxios from '../hooks/useAxios';
 
 function ConsumerHomeList({ openModalEvent }) {
   const user = useAuthUser();
@@ -18,22 +19,27 @@ function ConsumerHomeList({ openModalEvent }) {
   const [modalIsActive, setModalIsActive] = useState(false);
   const selectedOrder = useSelectedOrder();
 
-  useEffect(() => {
-    if (!refreshPage) return;
+  // const { response, error, loading, refetch } = useAxios({
+  //   method: 'get',
+  //   url: `/orders/?src=${user.workplace_id}`,
+  // });
 
-    getData(user.workplace_id, token).then((resp) => {
-      if (resp.error) {
-        console.log(resp.error);
-        // setIsEmpty(true);
-      } else {
-        console.log(orders);
-        setOrders(resp.data);
-        // setIsEmpty(false);
-      }
-    });
+  // useEffect(() => {
+  //   if (!refreshPage) return;
 
-    setRefreshPage(false);
-  }, [refreshPage]);
+  //   getData(user.workplace_id, token).then((resp) => {
+  //     if (resp.error) {
+  //       console.log(resp.error);
+  //       // setIsEmpty(true);
+  //     } else {
+  //       console.log(orders);
+  //       setOrders(resp.data);
+  //       // setIsEmpty(false);
+  //     }
+  //   });
+
+  //   setRefreshPage(false);
+  // }, [refreshPage]);
 
   function refreshListHandler() {
     console.log('requested update');

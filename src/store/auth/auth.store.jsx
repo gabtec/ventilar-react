@@ -17,6 +17,9 @@ export const authSlice = createSlice({
       state.refreshToken = action.payload.refreshToken;
       state.isLoggedIn = true;
     },
+    setAccessToken(state, action) {
+      state.accessToken = action.payload;
+    },
     clearAuthData(state, action) {
       // console.log('call clear');
       state.authUser = {};
@@ -28,5 +31,6 @@ export const authSlice = createSlice({
 });
 
 // export const { example } = authSlice.actions;
+// export const { storeAuthData, clearAuthData } = authSlice.actions;
 export const authStoreActions = authSlice.actions;
 export default authSlice.reducer;

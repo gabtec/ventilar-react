@@ -91,6 +91,7 @@ function DispatcherHomeList() {
 
   function refreshListHandler() {
     console.log('will refresh');
+    getData(user.workplace_id, token);
     setRefreshPage(true);
   }
 
