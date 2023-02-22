@@ -8,7 +8,7 @@ function DispatcherDispacthModal({
   closeEvent,
   saveEvent,
 }) {
-  const [vent, setVent] = useState(null);
+  const [vent, setVent] = useState(0);
   const [obs, setObs] = useState('');
   const modalClasses = isActive ? ['modal', 'is-active'] : ['modal'];
 

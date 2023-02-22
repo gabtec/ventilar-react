@@ -3,17 +3,38 @@ import ListWithoutItems from '../../components/ListWithoutItems';
 import VentilatorsItemByWard from '../../components/VentilatorsItemByWard';
 import { store } from '../../store';
 import useFetch from '../../hooks/useFetch';
+import api from '../../apiConnector/axios';
+import { useEffect, useState } from 'react';
 
-function AvailableVentilatorsList(props) {
-  const token = store.getState().auth.accessToken;
+function AvailableVentilatorsList() {
   const params = useParams();
-  const url = `http://localhost:3002/api/ventilators/?status=true&cat=${params.cat.toUpperCase()}`;
+  const [ventilators, setVentilators] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const { loading, error, value } = useFetch(
-    url,
-    { headers: { authorization: `Bearer ${token}` } },
-    [url]
-  );
+  // const token = store.getState().auth.accessToken;
+  // const url = `http://localhost:3002/api/ventilators/?status=true&cat=${params.cat.toUpperCase()}`;
+
+  // const { loading, error, value } = useFetch(
+  //   url,
+  //   { headers: { authorization: `Bearer ${token}` } },
+  //   [url]
+  // );
+
+  useEffect(() => {
+    setIsLoading(true);
+    (async () => {
+      try {
+        const resp = await api.get(
+          `/ventilators/?status=true&cat=${params.cat.toUpperCase()}`
+        );
+        setVentilators(resp.data);
+        setIsLoading(false);
+      } catch (error) {
+        console.error(error);
+        setIsLoading(false);
+      }
+    })();
+  }, []);
 
   return (
     <>
@@ -21,9 +42,9 @@ function AvailableVentilatorsList(props) {
         <div className="column is-three-quarters">
           <div className="title">Lista de Ventiladores Disponíveis:</div>
 
-          {loading && <ListWithoutItems />}
-          {!loading &&
-            value.map((item) => (
+          {isLoading && <ListWithoutItems />}
+          {!isLoading &&
+            ventilators.map((item) => (
               <VentilatorsItemByWard key={item.wardID} ventilator={item} />
             ))}
           <Link to="/spa" className="button is-info is-pulled-right">

@@ -25,16 +25,16 @@ function HomePage() {
     // bypass
     // setUsername('3428');
     // setPassword('gabriel');
-    setUsername('2000');
-    setPassword('gabriel');
-    console.log('login is bypassed');
+    // setUsername('2000');
+    // setPassword('gabriel');
+    // console.log('login is bypassed');
 
-    // if (username === '' || password === '') {
-    //   setLoginError('Deve inserir as credênciais!');
-    //   return;
-    // }
-    // setUsername(username);
-    // setPassword(password);
+    if (username === '' || password === '') {
+      setLoginError('Deve inserir as credênciais!');
+      return;
+    }
+    setUsername(username);
+    setPassword(password);
   }
 
   useEffect(() => {

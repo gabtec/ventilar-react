@@ -7,6 +7,7 @@ import UserWithoutWardNotif from './UserWithoutWardNotif';
 import DispatcherOrdersItem from './Dispatcher-OrdersItem';
 import DispatcherParkItem from './Dispatcher-ParkItem';
 import DispatcherDispacthModal from './Dispatcher-Dispatch.modal';
+import api from '../apiConnector/axios';
 
 function DispatcherHomeList() {
   const user = useAuthUser();
@@ -23,13 +24,35 @@ function DispatcherHomeList() {
   //   setModalIsActive((prev) => !prev);
   // }
 
+  useEffect(() => {
+    // if (!refreshPage) return;
+
+    getData(user.workplace_id)
+      .then((orders) => {
+        setOrders(orders);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+
+    getVentilators(user.workplace_id, token)
+      .then((ventilators) => {
+        setVentilators(ventilators);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+    // setRefreshPage(false);
+  }, []);
+
   function answerHandler(orderID) {
-    console.log(orderID);
+    // console.log(orderID);
     setSelectedOrder(orderID);
+    // TODO: get from database
     setAvailableVents(() => {
       return ventilators.filter((item) => item.is_available);
     });
-    setModalIsActive((prev) => !prev);
+    setModalIsActive((prev) => !prev); // TODO: remane to setOpenModal
   }
 
   async function acceptHandler(order) {
@@ -43,8 +66,10 @@ function DispatcherHomeList() {
         status: 'CLOSED',
       },
       token
-    );
-    setRefreshPage(true);
+    ).catch((error) => {
+      console.error(error);
+    });
+    // setRefreshPage(true);
   }
 
   function closeModalHandler() {
@@ -52,9 +77,10 @@ function DispatcherHomeList() {
   }
 
   async function saveModalHandler(ventID, obs) {
-    console.log(
-      `on save: orderID:${selectedOrder}, ventID: ${ventID}, obs: ${obs}`
-    );
+    // console.log(
+    //   `on save: orderID:${selectedOrder}, ventID: ${ventID}, obs: ${obs}`
+    // );
+
     await dispatchVentilatorRequest(
       {
         orderID: selectedOrder,
@@ -63,31 +89,15 @@ function DispatcherHomeList() {
         status: 'DISPATCHED',
       },
       token
-    );
+    )
+      .then((ok) => {
+        console.log(ok);
+      })
+      .catch((error) => console.error(error));
+
     setModalIsActive(false);
     setRefreshPage(true);
   }
-
-  useEffect(() => {
-    if (!refreshPage) return;
-
-    getData(user.workplace_id, token).then((resp) => {
-      if (resp.error) {
-        console.log(resp.error);
-      } else {
-        setOrders(resp.data);
-      }
-    });
-
-    getVentilators(user.workplace_id, token).then((resp) => {
-      if (resp.error) {
-        console.log(resp.error);
-      } else {
-        setVentilators(resp.data);
-      }
-    });
-    setRefreshPage(false);
-  }, [refreshPage]);
 
   function refreshListHandler() {
     console.log('will refresh');
@@ -181,71 +191,90 @@ export default DispatcherHomeList;
 
 async function getData(serviceID, token) {
   try {
-    const resp = await fetch(
-      `http://localhost:3002/api/orders/?dest=${serviceID}`,
-      {
-        method: 'get',
-        headers: {
-          authorization: `Bearer ${token}`,
-        },
-      }
-    );
-
-    if (!resp.ok) {
-      return foundNothing();
-    }
-
-    return foundData(await resp.json());
+    const resp = await api.get(`/orders/?dest=${serviceID}`);
+    return resp.data;
   } catch (error) {
-    return foundError(error.message);
+    return error.response.data;
   }
+  // try {
+  //   const resp = await fetch(
+  //     `http://localhost:3002/api/orders/?dest=${serviceID}`,
+  //     {
+  //       method: 'get',
+  //       headers: {
+  //         authorization: `Bearer ${token}`,
+  //       },
+  //     }
+  //   );
+
+  //   if (!resp.ok) {
+  //     return foundNothing();
+  //   }
+
+  //   return foundData(await resp.json());
+  // } catch (error) {
+  //   return foundError(error.message);
+  // }
 }
 
 // data { orderID, ventilatorID, obs }
 async function dispatchVentilatorRequest(data, token) {
   try {
-    const resp = await fetch(
-      `http://localhost:3002/api/orders/${data.orderID}`,
-      {
-        method: 'PATCH',
-        headers: {
-          authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-      }
-    );
-
-    if (!resp.ok) {
-      return foundNothing();
-    }
-
-    return foundData(await resp.json());
+    const resp = await api.patch(`/orders/${data.orderID}`, data);
+    return resp.data;
   } catch (error) {
-    return foundError(error.message);
+    return error.response.data;
   }
+
+  // try {
+  //   const resp = await fetch(
+  //     `http://localhost:3002/api/orders/${data.orderID}`,
+  //     {
+  //       method: 'PATCH',
+  //       headers: {
+  //         authorization: `Bearer ${token}`,
+  //         'Content-Type': 'application/json',
+  //       },
+  //       body: JSON.stringify(data),
+  //     }
+  //   );
+
+  //   if (!resp.ok) {
+  //     return foundNothing();
+  //   }
+
+  //   return foundData(await resp.json());
+  // } catch (error) {
+  //   return foundError(error.message);
+  // }
 }
 
 async function getVentilators(serviceID, token) {
   try {
-    const resp = await fetch(
-      `http://localhost:3002/api/ventilators/?parkId=${serviceID}`,
-      {
-        method: 'get',
-        headers: {
-          authorization: `Bearer ${token}`,
-        },
-      }
-    );
-
-    if (!resp.ok) {
-      return foundNothing();
-    }
-
-    return foundData(await resp.json());
+    const resp = await api.get(`/ventilators/?parkId=${serviceID}`);
+    return resp.data;
   } catch (error) {
-    return foundError(error.message);
+    return error.response.data;
   }
+  // try {
+  //   const resp = await fetch(
+  //     `http://localhost:3002/api/ventilators/?parkId=${serviceID}`,
+  //     {
+  //       method: 'get',
+  //       headers: {
+  //         authorization: `Bearer ${token}`,
+  //       },
+  //     }
+  //   );
+
+  //   if (!resp.ok) {
+  //     return foundNothing();
+  //   }
+
+  //   return foundData(await resp.json());
+  // } catch (error) {
+  //   return foundError(error.message);
+  // }
 }
 
 function myResponse(isEmpty, data = [], error = null) {

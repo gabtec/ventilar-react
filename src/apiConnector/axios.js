@@ -76,11 +76,12 @@ axiosInstance.interceptors.response.use(
   (response) => response,
   async (error) => {
     if (error.response.status === 401) {
+      console.log('refreshing token ...');
       const resp = await axios.post(`${baseURL}/auth/refresh`, null, {
         withCredentials: true,
       });
-      console.log(resp.data.accessToken);
-      console.log(error.config);
+      // console.log(resp.data.accessToken);
+      // console.log(error.config);
       setAuthorizationHeader(resp.data.accessToken);
       // axiosInstance.defaults.Authorization = `Bearer ${resp.data.accessToken}`;
       // error.config.Authorization = `Bearer ${resp.data.accessToken}`;

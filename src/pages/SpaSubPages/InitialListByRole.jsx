@@ -21,7 +21,6 @@ function InitialListByRole() {
   }
 
   function toggleModal() {
-    console.log('call op modal');
     setModalIsActive((prev) => !prev);
   }
 

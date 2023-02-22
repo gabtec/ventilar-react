@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { store } from '../store';
-import useFetch from '../hooks/useFetch';
+import api from '../apiConnector/axios';
 
 function VentilatorOrder() {
   const navigate = useNavigate();
@@ -58,36 +58,43 @@ function VentilatorOrder() {
 
   async function saveOrder(order) {
     // SEND to API
-    const url = `http://localhost:3002/api/orders/`;
-
     try {
-      const resp = await fetch(
-        url,
-        {
-          method: 'post',
-          headers: {
-            authorization: `Bearer ${token}`,
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(order),
-        },
-        [url]
-      );
-
-      if (!resp.ok) {
-        console.log('deu erro');
-        const erro = await resp.json();
-        console.log(erro.message);
-        setErrors(erro.message);
-        return;
-      }
-      const resData = await resp.json();
-      console.log(resData);
+      const resp = await api.post('/orders', order);
       setCanExit(true);
     } catch (error) {
-      console.log(error.message);
-      setErrors(error.message);
+      console.error(error);
+      setErrors(error.response.data);
     }
+    // const url = `http://localhost:3002/api/orders/`;
+
+    // try {
+    //   const resp = await fetch(
+    //     url,
+    //     {
+    //       method: 'post',
+    //       headers: {
+    //         authorization: `Bearer ${token}`,
+    //         'Content-Type': 'application/json',
+    //       },
+    //       body: JSON.stringify(order),
+    //     },
+    //     [url]
+    //   );
+
+    //   if (!resp.ok) {
+    //     console.log('deu erro');
+    //     const erro = await resp.json();
+    //     console.log(erro.message);
+    //     setErrors(erro.message);
+    //     return;
+    //   }
+    //   const resData = await resp.json();
+    //   console.log(resData);
+    //   setCanExit(true);
+    // } catch (error) {
+    //   console.log(error.message);
+    //   setErrors(error.message);
+    // }
   }
   // useEffect(()=>{
   //   if(!loading){
