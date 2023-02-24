@@ -12,14 +12,14 @@ import { useNavigate } from 'react-router-dom';
 
 function ConsumerHomeList({ openModalEvent }) {
   const user = useAuthUser();
-  const token = useToken();
+  // const token = useToken();
   const navigate = useNavigate();
 
+  const [modalIsActive, setModalIsActive] = useState(false);
   const [orders, setOrders] = useState([]);
   const [error, setError] = useState('');
   // const [isEmpty, setIsEmpty] = useState(true);
-  const [refreshPage, setRefreshPage] = useState(false);
-  const [modalIsActive, setModalIsActive] = useState(false);
+  // const [refreshPage, setRefreshPage] = useState(false);
   const selectedOrder = useSelectedOrder();
 
   // const { response, error, loading, refetch } = useAxios({
@@ -62,18 +62,19 @@ function ConsumerHomeList({ openModalEvent }) {
   // }, [refreshPage]);
 
   async function refreshListHandler() {
-    console.log('requested update');
-    // setRefreshPage(true);
-    try {
-      const resp = await getData(user.workplace_id);
-      console.log(resp.data);
-      setOrders(resp.data);
-    } catch (error) {
-      console.error(error);
-      console.log('resposta falhada do refresh');
-      navigate('/');
-      // console.error(error.response.data);
-    }
+    getData(user.workplace_id, setOrders, setError);
+    // console.log('requested update');
+    // // setRefreshPage(true);
+    // try {
+    //   const resp = await getData(user.workplace_id);
+    //   console.log(resp.data);
+    //   setOrders(resp.data);
+    // } catch (error) {
+    //   console.error(error);
+    //   console.log('resposta falhada do refresh');
+    //   navigate('/');
+    //   // console.error(error.response.data);
+    // }
   }
 
   function returnVentHandler() {
@@ -81,21 +82,23 @@ function ConsumerHomeList({ openModalEvent }) {
   }
 
   function confirmDeliveryHandler() {
-    console.log(selectedOrder);
-    // console.log('delivery dispatched');
-    returnVentilatorToPark(selectedOrder, token)
-      .then((resp) => {
-        if (resp.error) {
-          console.log('sdsadasd');
-          console.log(resp.error);
-        } else {
-          setRefreshPage(true);
-          setModalIsActive(false);
-        }
-      })
-      .catch((err) => {
-        console.log(err.message);
-      });
+    // console.log(selectedOrder);
+    // // console.log('delivery dispatched');
+    // returnVentilatorToPark(selectedOrder, token)
+    //   .then((resp) => {
+    //     if (resp.error) {
+    //       console.log('sdsadasd');
+    //       console.log(resp.error);
+    //     } else {
+    //       setRefreshPage(true);
+    //       setModalIsActive(false);
+    //     }
+    //   })
+    //   .catch((err) => {
+    //     console.log(err.message);
+    //   });
+    setModalIsActive(false);
+    returnVentilatorToPark(selectedOrder, setOrders, setError);
   }
 
   function toggleDeliverVentModal() {
@@ -169,33 +172,50 @@ export default ConsumerHomeList;
 /**
  * Helper functions
  */
-async function returnVentilatorToPark(order, token) {
+async function returnVentilatorToPark(order, setResult, setError) {
   try {
-    const resp = await fetch(`http://localhost:3002/api/orders/${order.id}`, {
-      method: 'PATCH',
-      // method: 'put',
-      headers: {
-        authorization: `Bearer ${token}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        id: order.id,
-        status: 'RETURNED',
-        obs: order.obs,
-        ventilator_id: '' + order.ventilator_id,
-      }),
+    const resp = await api.patch(`/orders/${order.id}`, {
+      id: order.id,
+      status: 'RETURNED',
+      obs: order.obs,
+      ventilator_id: '' + order.ventilator_id,
     });
-
-    if (!resp.ok) {
-      return foundNothing();
-    }
-
-    return foundData(await resp.json());
+    console.log(resp.data);
+    // setResult(resp.data);
+    getData(order.from_id, setResult, setError);
   } catch (error) {
     console.log(error);
-    return foundError(error.message);
+    setError(error.message);
   }
 }
+
+// async function returnVentilatorToPark(order, token) {
+//   try {
+//     const resp = await fetch(`http://localhost:3002/api/orders/${order.id}`, {
+//       method: 'PATCH',
+//       // method: 'put',
+//       headers: {
+//         authorization: `Bearer ${token}`,
+//         'Content-Type': 'application/json',
+//       },
+//       body: JSON.stringify({
+//         id: order.id,
+//         status: 'RETURNED',
+//         obs: order.obs,
+//         ventilator_id: '' + order.ventilator_id,
+//       }),
+//     });
+
+//     if (!resp.ok) {
+//       return foundNothing();
+//     }
+
+//     return foundData(await resp.json());
+//   } catch (error) {
+//     console.log(error);
+//     return foundError(error.message);
+//   }
+// }
 
 async function getData(serviceID, setResult, setError) {
   try {
@@ -207,27 +227,6 @@ async function getData(serviceID, setResult, setError) {
     setError(error.message);
   }
 }
-// async function getData(serviceID, token) {
-//   try {
-//     const resp = await fetch(
-//       `http://localhost:3002/api/orders/?src=${serviceID}`,
-//       {
-//         method: 'get',
-//         headers: {
-//           authorization: `Bearer ${token}`,
-//         },
-//       }
-//     );
-
-//     if (!resp.ok) {
-//       return foundNothing();
-//     }
-
-//     return foundData(await resp.json());
-//   } catch (error) {
-//     return foundError(error.message);
-//   }
-// }
 
 /**
  * Helper Functions
