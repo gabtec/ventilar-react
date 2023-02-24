@@ -25,16 +25,16 @@ function HomePage() {
     // bypass
     // setUsername('3428');
     // setPassword('gabriel');
-    // setUsername('2000');
-    // setPassword('gabriel');
+    setUsername(2000);
+    setPassword('gabriel');
     // console.log('login is bypassed');
 
-    if (username === '' || password === '') {
-      setLoginError('Deve inserir as credênciais!');
-      return;
-    }
-    setUsername(username);
-    setPassword(password);
+    // if (username === '' || password === '') {
+    //   setLoginError('Deve inserir as credênciais!');
+    //   return;
+    // }
+    // setUsername(username);
+    // setPassword(password);
   }
 
   useEffect(() => {
@@ -70,20 +70,6 @@ function HomePage() {
         </div>
       </div>
     </div>
-    // <div className={classes.gt_home_container}>
-    //   <section className="hero">
-    //     <div className=" mt-6">
-    //       <p className={'title ' + classes.gt_title_5r}>ventil≋AR</p>
-    //       <p className="subtitle">sponsored by</p>
-    //       <div className={classes.gt_logo}></div>
-    //     </div>
-    //   </section>
-    //   <footer className="footer">
-    //     <button className="button is-info is-large is-fullwidth" onClick={goTo}>
-    //       ENTR≋AR
-    //     </button>
-    //   </footer>
-    // </div>
   );
 }
 
@@ -114,29 +100,3 @@ async function sendLogin(username, password) {
     };
   }
 }
-// async function sendLogin(username, password) {
-//   const resp = await fetch('http://localhost:3002/api/auth/login', {
-//     method: 'post',
-//     headers: {
-//       'Content-Type': 'application/json; charset=UTF-8',
-//     },
-//     body: JSON.stringify({
-//       username,
-//       password,
-//     }),
-//   });
-
-//   if (!resp.ok) {
-//     return {
-//       isLoggedIn: false,
-//       authUser: null,
-//       error: 'Credênciais inválidas. Tente novamente.',
-//     };
-//   }
-
-//   return {
-//     isLoggedIn: true,
-//     data: await resp.json(),
-//     error: null,
-//   };
-// }

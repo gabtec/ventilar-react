@@ -38,21 +38,21 @@ function AvailableVentilatorsList() {
 
   return (
     <>
-      <div className="columns is-centered pt-5">
-        <div className="column is-three-quarters">
-          <div className="title">Lista de Ventiladores Disponíveis:</div>
+      {/* <div className="columns is-centered pt-5"> */}
+      <div className="column is-three-quarters">
+        <div className="title">Lista de Ventiladores Disponíveis:</div>
 
-          {isLoading && <ListWithoutItems />}
-          {!isLoading &&
-            ventilators.map((item) => (
-              <VentilatorsItemByWard key={item.wardID} ventilator={item} />
-            ))}
-          <Link to="/spa" className="button is-info is-pulled-right">
-            <box-icon color="white" name="chevron-left-circle" />
-            <span className="ml-2">Voltar</span>
-          </Link>
-        </div>
+        {isLoading && <ListWithoutItems />}
+        {!isLoading &&
+          ventilators.map((item) => (
+            <VentilatorsItemByWard key={item.wardID} ventilator={item} />
+          ))}
+        <Link to="/spa" className="button is-info is-pulled-right">
+          <box-icon color="white" name="chevron-left-circle" />
+          <span className="ml-2">Voltar</span>
+        </Link>
       </div>
+      {/* </div> */}
     </>
   );
 }

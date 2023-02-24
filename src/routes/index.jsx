@@ -13,6 +13,9 @@ import InitialListByRole from '../pages/SpaSubPages/InitialListByRole';
 import AvailableVentilatorsList from '../pages/SpaSubPages/AvailableVentilatorsList';
 import OrderCreate from '../components/OrderCreate';
 import OrderEdit from '../components/OrderEdit';
+import AdminHomeList from '../components/AdminHomeList';
+import DispatcherHomeList from '../components/DispatcherHomeList';
+import ConsumerHomeList from '../components/ConsumerHomeList';
 
 const router = createBrowserRouter([
   {
@@ -23,7 +26,19 @@ const router = createBrowserRouter([
     path: '/spa',
     element: <SpaPage />,
     children: [
-      { index: true, element: <InitialListByRole /> },
+      // { index: true, element: <InitialListByRole /> },
+      {
+        path: 'consumer',
+        element: <ConsumerHomeList />,
+      },
+      {
+        path: 'admin',
+        element: <AdminHomeList />,
+      },
+      {
+        path: 'dispatcher',
+        element: <DispatcherHomeList />,
+      },
       {
         path: 'ventilators/available/:cat',
         element: <AvailableVentilatorsList />,
