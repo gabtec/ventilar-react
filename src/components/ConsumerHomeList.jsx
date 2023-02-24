@@ -16,6 +16,7 @@ function ConsumerHomeList({ openModalEvent }) {
   const navigate = useNavigate();
 
   const [orders, setOrders] = useState([]);
+  const [error, setError] = useState('');
   // const [isEmpty, setIsEmpty] = useState(true);
   const [refreshPage, setRefreshPage] = useState(false);
   const [modalIsActive, setModalIsActive] = useState(false);
@@ -27,16 +28,22 @@ function ConsumerHomeList({ openModalEvent }) {
   // });
 
   useEffect(() => {
-    (async () => {
-      try {
-        const resp = await getData(user.workplace_id);
-        setOrders(resp.data);
-      } catch (error) {
-        console.error(error);
-      }
-    })();
+    // (async () => {
+    //   try {
+    //     const resp = await getData(user.workplace_id);
+    //     setOrders(resp.data);
+    //   } catch (error) {
+    //     console.error(error);
+    //   }
+    // })();
+    getData(user.workplace_id, setOrders, setError);
   }, []);
 
+  useEffect(() => {
+    if (!error || error === '') return;
+
+    window.alert(error);
+  }, [error]);
   // useEffect(() => {
   //   if (!refreshPage) return;
 
@@ -190,8 +197,15 @@ async function returnVentilatorToPark(order, token) {
   }
 }
 
-async function getData(serviceID) {
-  return await api.get(`/orders/?src=${serviceID}`);
+async function getData(serviceID, setResult, setError) {
+  try {
+    const resp = await api.get(`/orders/?src=${serviceID}`);
+    console.log(resp.data);
+    setResult(resp.data);
+  } catch (error) {
+    console.log(error);
+    setError(error.message);
+  }
 }
 // async function getData(serviceID, token) {
 //   try {
