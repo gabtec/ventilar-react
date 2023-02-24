@@ -121,7 +121,9 @@ function ConsumerHomeList({ openModalEvent }) {
         <div className="columns">
           <div className="column is-10 is-offset-1">
             <button
+              id="btn-add"
               className="button is-success is-pulled-right"
+              data-cy="add-order-btn"
               onClick={openModalEvent}
             >
               <box-icon color="white" name="plus-circle" />{' '}

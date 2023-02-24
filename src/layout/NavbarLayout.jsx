@@ -65,13 +65,21 @@ function NavbarLayout(props) {
             <div className="buttons">
               {/* user info */}
               {props.username && (
-                <a className="button is-primary is-outlined" disabled>
+                <a
+                  className="button is-primary is-outlined"
+                  data-cy="username-tag"
+                  disabled
+                >
                   <strong>{props.username}</strong>
                 </a>
               )}
 
-              <button className="button is-primary" onClick={logoutHandler}>
-                <strong>Log out</strong>
+              <button
+                className="button is-primary"
+                data-cy="logout-btn"
+                onClick={logoutHandler}
+              >
+                <strong>Logout</strong>
               </button>
             </div>
           </div>

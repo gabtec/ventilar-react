@@ -14,7 +14,7 @@ function DeliverVentModal({
   return (
     <>
       {ReactDOM.createPortal(
-        <div className={modalClasses.join(' ')}>
+        <dialog data-cy="add-order-modal" className={modalClasses.join(' ')}>
           <div className="modal-background"></div>
           <div className="modal-card">
             <header className="modal-card-head">
@@ -52,7 +52,7 @@ function DeliverVentModal({
               </button>
             </footer>
           </div>
-        </div>,
+        </dialog>,
         document.getElementById('modal-root')
       )}
     </>

@@ -9,7 +9,7 @@ function SelectVentCatModal({ isActive, closeModalEvent }) {
   return (
     <>
       {ReactDOM.createPortal(
-        <div className={modalClasses.join(' ')}>
+        <dialog data-cy="select-vent-modal" className={modalClasses.join(' ')}>
           <div className="modal-background"></div>
           <div className="modal-card">
             <header className="modal-card-head">
@@ -23,6 +23,7 @@ function SelectVentCatModal({ isActive, closeModalEvent }) {
                   <Link
                     to="/spa/ventilators/available/vi"
                     className="button is-outlined is-success is-large mr-2"
+                    data-cy="choose-vi"
                     style={{ width: '150px' }}
                   >
                     <box-icon name="equalizer" />
@@ -31,6 +32,7 @@ function SelectVentCatModal({ isActive, closeModalEvent }) {
                   <Link
                     to="/spa/ventilators/available/vni"
                     className="button is-outlined is-info is-large"
+                    data-cy="choose-vni"
                     style={{ width: '150px' }}
                   >
                     <box-icon name="equalizer" />
@@ -45,7 +47,7 @@ function SelectVentCatModal({ isActive, closeModalEvent }) {
               </button>
             </footer>
           </div>
-        </div>,
+        </dialog>,
         document.getElementById('modal-root')
       )}
     </>
