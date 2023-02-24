@@ -6,7 +6,7 @@ function LoginForm({ submitEvent, error }) {
 
   function submitHandler(evt) {
     evt.preventDefault();
-    submitEvent(usernameRef.current.value, passwordRef.current.value);
+    submitEvent(usernameRef.current.valueAsNumber, passwordRef.current.value);
   }
 
   return (
