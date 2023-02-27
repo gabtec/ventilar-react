@@ -9,7 +9,7 @@ function SelectVentCatModal({ isActive, closeModalEvent }) {
   return (
     <>
       {ReactDOM.createPortal(
-        <dialog data-cy="select-vent-modal" className={modalClasses.join(' ')}>
+        <div data-cy="select-vent-modal" className={modalClasses.join(' ')}>
           <div className="modal-background"></div>
           <div className="modal-card">
             <header className="modal-card-head">
@@ -19,7 +19,7 @@ function SelectVentCatModal({ isActive, closeModalEvent }) {
             </header>
             <section className="modal-card-body ">
               <div className="columns is-centered">
-                <div className="column is-three-quarters">
+                <div className="column is-3">
                   <Link
                     to="/spa/ventilators/available/vi"
                     className="button is-outlined is-success is-large mr-2"
@@ -29,6 +29,8 @@ function SelectVentCatModal({ isActive, closeModalEvent }) {
                     <box-icon name="equalizer" />
                     <span className="mr-2">VI</span>
                   </Link>
+                </div>
+                <div className="column is-3">
                   <Link
                     to="/spa/ventilators/available/vni"
                     className="button is-outlined is-info is-large"
@@ -47,7 +49,7 @@ function SelectVentCatModal({ isActive, closeModalEvent }) {
               </button>
             </footer>
           </div>
-        </dialog>,
+        </div>,
         document.getElementById('modal-root')
       )}
     </>
