@@ -44,7 +44,11 @@ function SelectVentCatModal({ isActive, closeModalEvent }) {
               </div>
             </section>
             <footer className="modal-card-foot is-justify-content-flex-end">
-              <button className="button" onClick={closeModalEvent}>
+              <button
+                className="button"
+                data-cy="close-select-cat"
+                onClick={closeModalEvent}
+              >
                 Cancelar
               </button>
             </footer>

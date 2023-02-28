@@ -1,17 +1,20 @@
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import OrderStatusTag from './OrderStatus-tag';
+import { orderStoreActions } from '../store/order/order.store';
 
 // function OrdersItem({ order, deliverEvent }) {
-function OrdersItem({ order, answerEvent, acceptEvent }) {
+function OrdersItem({ order, answerEvent, receiveEvent }) {
   const hasVentilator = order.ventilator ? true : false;
-  // const dispatch = useDispatch();
-  // const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   function editHandler() {
-    window.alert('TODO: editHandler');
+    // window.alert('TODO: editHandler');
     // console.log('on editar');
     // console.log(order);
-    // dispatch(orderStoreActions.storeSelectedOrder(order));
-    // navigate(`/spa/orders/edit/${order.id}`);
+    dispatch(orderStoreActions.storeSelectedOrder(order));
+    navigate(`/spa/orders/edit/${order.id}`);
   }
 
   function respondHandler() {
@@ -19,7 +22,7 @@ function OrdersItem({ order, answerEvent, acceptEvent }) {
   }
 
   function acceptHandler() {
-    acceptEvent(order);
+    receiveEvent(order);
   }
 
   return (
@@ -64,6 +67,7 @@ function OrdersItem({ order, answerEvent, acceptEvent }) {
                 <div className="buttons is-right">
                   <button
                     className="button is-small is-outlined is-info mr-2"
+                    data-cy="dispatch-btn-edit-order"
                     onClick={editHandler}
                   >
                     Editar
@@ -71,6 +75,7 @@ function OrdersItem({ order, answerEvent, acceptEvent }) {
                   <button
                     className="button is-small is-outlined is-info"
                     onClick={respondHandler}
+                    data-cy="dispatch-btn-respond-order"
                     disabled={order.status !== 'PENDING'}
                   >
                     Responder
@@ -78,11 +83,18 @@ function OrdersItem({ order, answerEvent, acceptEvent }) {
                   <button
                     className="button is-small is-outlined is-info"
                     onClick={acceptHandler}
+                    data-cy="dispatch-btn-receive-order"
                     disabled={order.status !== 'RETURNED'}
                   >
                     Receber
                   </button>
                 </div>
+              </div>
+            </div>
+            <div className="columns">
+              <div className="column is-10">
+                <strong>Observações:</strong>
+                <p>{order.obs}</p>
               </div>
             </div>
           </div>

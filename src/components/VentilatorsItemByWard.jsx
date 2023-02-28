@@ -31,6 +31,7 @@ function VentilatorsItemByWard({ ventilator }) {
           <button
             className="button is-outlined is-info is-small"
             onClick={selectParkHandler}
+            data-cy="request-available-vent"
           >
             <box-icon color="blue" name="list-check" />
             <span className="ml-2 is-small">Requisitar</span>

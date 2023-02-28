@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import ReactDOM from 'react-dom';
-import SelectVentilatorItem from './Ventilator-to-dispatch-selector';
+import SelectVentilatorItem from './Dispatcher-select-ventilator-to-dispatch.modal';
 
 function DispatcherDispacthModal({
   isActive,
@@ -96,11 +96,19 @@ function DispatcherDispacthModal({
               </div>
             </section>
             <footer className="modal-card-foot is-justify-content-flex-end">
-              <button className="button" onClick={closeHandler}>
+              <button
+                className="button"
+                onClick={closeHandler}
+                data-cy="dispatch-modal-btn-cancel"
+              >
                 Cancelar
               </button>
               {ventilators.length !== 0 && (
-                <button className="button is-info" onClick={saveHandler}>
+                <button
+                  className="button is-info"
+                  onClick={saveHandler}
+                  data-cy="dispatch-modal-btn-save"
+                >
                   Gravar
                 </button>
               )}

@@ -1,6 +1,6 @@
 import classes from './LoginPage.module.css';
 
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 
@@ -12,45 +12,29 @@ import api, { setAuthorizationHeader } from '../apiConnector/axios';
 /**
  * COMPONENT
  */
-function HomePage() {
+export default function HomePage() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const [loginError, setLoginError] = useState(null);
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  // const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-  function handleSubmmit(username, password) {
-    // bypass
-    // setUsername('3428');
-    // setPassword('gabriel');
-    setUsername(2000);
-    setPassword('gabriel');
-    // console.log('login is bypassed');
-
-    // if (username === '' || password === '') {
-    //   setLoginError('Deve inserir as credênciais!');
-    //   return;
-    // }
-    // setUsername(username);
-    // setPassword(password);
-  }
-
-  useEffect(() => {
-    if (username === '' && password === '') {
+  async function handleSubmmit(username, password) {
+    if (isNaN(username) || password === '') {
+      setLoginError('Deve inserir as credênciais!');
       return;
     }
 
-    sendLogin(username, password).then((res) => {
-      if (res.error) {
-        setLoginError(res.error);
-      } else {
-        dispatch(authStoreActions.storeAuthData(res.data));
-        navigate('/spa');
-      }
-    });
-  }, [username, password]);
+    try {
+      const resp = await api.post('/auth/login', { username, password });
+      console.log(resp.data);
+      setAuthorizationHeader(resp.data.accessToken);
+      dispatch(authStoreActions.storeAuthData(resp.data));
+      navigate(`/spa/${resp.data.user.role}`);
+    } catch (error) {
+      console.log(error.message);
+      setLoginError('Credênciais inválidas. Tente novamente.');
+    }
+  }
 
   return (
     <div className={classes.gt_home_container}>
@@ -71,32 +55,4 @@ function HomePage() {
       </div>
     </div>
   );
-}
-
-export default HomePage;
-
-/**
- * Helper functions
- * @param {string} username
- * @param {string} password
- * @returns
- */
-async function sendLogin(username, password) {
-  try {
-    const resp = await api.post('/auth/login', { username, password });
-
-    setAuthorizationHeader(resp.data.accessToken);
-    return {
-      isLoggedIn: true,
-      data: resp.data,
-      error: null,
-    };
-  } catch (error) {
-    return {
-      isLoggedIn: false,
-      authUser: null,
-      error: 'Credênciais inválidas. Tente novamente.',
-      details: error.response.data,
-    };
-  }
 }

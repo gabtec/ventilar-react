@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import useAuthUser from '../../hooks/useAuthUser';
 
-import SelectVentCatModal from '../../components/SelectVentCat.modal';
+import SelectVentCatModal from '../../components/Consumer-select-category.modal';
 
 import AdminHomeList from '../../components/AdminHomeList';
 import DispatcherHomeList from '../../components/DispatcherHomeList';

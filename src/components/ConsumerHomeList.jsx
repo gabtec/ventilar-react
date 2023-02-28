@@ -6,7 +6,7 @@ import useToken from '../hooks/useToken';
 import ListWithoutItems from './ListWithoutItems';
 import OrdersItem from './OrdersItem';
 import UserWithoutWardNotif from './UserWithoutWardNotif';
-import SelectVentCatModal from './SelectVentCat.modal';
+import SelectVentCatModal from './Consumer-select-category.modal';
 import DeliverVentModal from './DeliverVent.modal';
 import api from '../apiConnector/axios';
 import { useNavigate } from 'react-router-dom';
@@ -44,17 +44,36 @@ function ConsumerHomeList() {
     setModalIsActive(true);
   }
 
-  function confirmReturnVentilatorHandler() {
-    setModalIsActive(false);
-    returnVentilatorToPark(selectedOrder, setOrders, setError);
-  }
+  async function handleReturnVentilator(ventilator, obs) {
+    console.log(selectedOrder);
+    console.log(obs);
 
-  function toggleReturnVentilatorDialog() {
-    setModalIsActive((prev) => !prev);
+    try {
+      const resp = await api.patch(`/orders/${selectedOrder.id}`, {
+        action: 'RETURN',
+        obs,
+      });
+
+      // console.log(resp.data);
+
+      setModalIsActive(false);
+      refreshListHandler();
+      return;
+    } catch (error) {
+      console.log('on catch');
+      console.log(error);
+    }
+
+    // setModalIsActive(false);
+    // returnVentilatorToPark(selectedOrder, setOrders, setError);
   }
 
   function toggleSelectVentilatorDialog() {
     setSelectCatDialogIsOpen((prev) => !prev);
+  }
+
+  function toggleReturnVentilatorDialog() {
+    setModalIsActive((prev) => !prev);
   }
 
   if (user.workplace == null) {
@@ -71,7 +90,7 @@ function ConsumerHomeList() {
         isActive={modalIsActive}
         ventilator={selectedOrder?.ventilator || {}}
         closeModalEvent={toggleReturnVentilatorDialog}
-        returnVentEvent={confirmReturnVentilatorHandler}
+        returnVentEvent={handleReturnVentilator}
       ></DeliverVentModal>
       <div className="container">
         <div className="columns">
@@ -129,22 +148,22 @@ export default ConsumerHomeList;
 /**
  * Helper functions
  */
-async function returnVentilatorToPark(order, setResult, setError) {
-  try {
-    const resp = await api.patch(`/orders/${order.id}`, {
-      id: order.id,
-      status: 'RETURNED',
-      obs: order.obs,
-      ventilator_id: '' + order.ventilator_id,
-    });
-    console.log(resp.data);
-    // setResult(resp.data);
-    getData(order.from_id, setResult, setError);
-  } catch (error) {
-    console.log(error);
-    setError(error.message);
-  }
-}
+// async function returnVentilatorToPark(order, setResult, setError) {
+//   try {
+//     const resp = await api.patch(`/orders/${order.id}`, {
+//       id: order.id,
+//       status: 'RETURNED',
+//       obs: order.obs,
+//       ventilator_id: '' + order.ventilator_id,
+//     });
+//     console.log(resp.data);
+//     // setResult(resp.data);
+//     getData(order.from_id, setResult, setError);
+//   } catch (error) {
+//     console.log(error);
+//     setError(error.message);
+//   }
+// }
 
 async function getData(serviceID, setResult, setError) {
   try {

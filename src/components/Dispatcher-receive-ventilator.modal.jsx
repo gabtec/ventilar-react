@@ -1,20 +1,20 @@
 import { useRef } from 'react';
 import ReactDOM from 'react-dom';
 
-function DeliverVentModal({
+export default function DispatcherReceiveVentilatorModal({
   isActive,
   ventilator,
   closeModalEvent,
-  returnVentEvent,
+  receiveVentEvent,
 }) {
   const obsRef = useRef();
 
   const modalClasses = isActive ? ['modal', 'is-active'] : ['modal'];
 
-  const title = `Devolução do ventilador:`;
+  const title = `Recepção de ventilador:`;
 
   function handleSave() {
-    returnVentEvent(ventilator, obsRef.current.value);
+    receiveVentEvent(ventilator, obsRef.current.value);
   }
 
   function handleClose() {
@@ -25,7 +25,7 @@ function DeliverVentModal({
   return (
     <>
       {ReactDOM.createPortal(
-        <div data-cy="add-order-modal" className={modalClasses.join(' ')}>
+        <div data-cy="receive-order-modal" className={modalClasses.join(' ')}>
           <div className="modal-background"></div>
           <div className="modal-card">
             <header className="modal-card-head">
@@ -56,11 +56,19 @@ function DeliverVentModal({
               </div>
             </section>
             <footer className="modal-card-foot is-justify-content-flex-end">
-              <button className="button" onClick={handleClose}>
+              <button
+                className="button"
+                onClick={handleClose}
+                data-cy="dispatch-modal-receive-vent-cancel"
+              >
                 Cancelar
               </button>
-              <button className="button is-info" onClick={handleSave}>
-                Devolver
+              <button
+                className="button is-success"
+                onClick={handleSave}
+                data-cy="dispatch-modal-receive-vent-save"
+              >
+                Receber
               </button>
             </footer>
           </div>
@@ -71,7 +79,7 @@ function DeliverVentModal({
   );
 }
 
-export default DeliverVentModal;
+// export default DispatcherReceiveVentilatorModal;
 
 export function printVentilatorName(vent) {
   if (!vent) return '';

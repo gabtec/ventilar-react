@@ -1,75 +1,50 @@
 import { useEffect, useState } from 'react';
 import useAuthUser from '../hooks/useAuthUser';
-import useToken from '../hooks/useToken';
 
 import ListWithoutItems from './ListWithoutItems';
 import UserWithoutWardNotif from './UserWithoutWardNotif';
 import DispatcherOrdersItem from './Dispatcher-OrdersItem';
 import DispatcherParkItem from './Dispatcher-ParkItem';
 import DispatcherDispacthModal from './Dispatcher-Dispatch.modal';
+import DispatcherReceiveVentilatorModal from './Dispatcher-receive-ventilator.modal';
 import api from '../apiConnector/axios';
 
 function DispatcherHomeList() {
   const user = useAuthUser();
-  const token = useToken();
 
   const [orders, setOrders] = useState([]);
   const [ventilators, setVentilators] = useState([]);
   const [availableVents, setAvailableVents] = useState([]);
   const [selectedOrder, setSelectedOrder] = useState(null);
-  const [refreshPage, setRefreshPage] = useState(false);
   const [modalIsActive, setModalIsActive] = useState(false);
+  const [activateReceiveVentModal, setActivateReceiveVentModal] =
+    useState(false);
+  const [error, setError] = useState('');
 
-  // function toggleDeliverVentModal() {
-  //   setModalIsActive((prev) => !prev);
-  // }
-
-  useEffect(() => {
-    // if (!refreshPage) return;
-
-    getData(user.workplace_id)
-      .then((orders) => {
-        setOrders(orders);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-
-    getVentilators(user.workplace_id, token)
-      .then((ventilators) => {
-        setVentilators(ventilators);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-    // setRefreshPage(false);
-  }, []);
-
-  function answerHandler(orderID) {
-    // console.log(orderID);
-    setSelectedOrder(orderID);
-    // TODO: get from database
-    setAvailableVents(() => {
-      return ventilators.filter((item) => item.is_available);
-    });
-    setModalIsActive((prev) => !prev); // TODO: remane to setOpenModal
+  function refreshListHandler() {
+    getOrders(user.workplace_id, setOrders, setError);
+    getVentilators(user.workplace_id, setVentilators, setError);
   }
 
-  async function acceptHandler(order) {
-    console.log('accept ' + order);
-    setSelectedOrder(order.id);
-    await dispatchVentilatorRequest(
-      {
-        orderID: order.id,
-        ventilator_id: '' + order.ventilator_id,
-        // obs: obs,
-        status: 'CLOSED',
-      },
-      token
-    ).catch((error) => {
-      console.error(error);
-    });
-    // setRefreshPage(true);
+  // on 1st render
+  useEffect(() => {
+    refreshListHandler();
+  }, []);
+
+  async function answerHandler(orderID) {
+    console.log(orderID);
+    setSelectedOrder(orderID);
+    // TODO: get from database
+    const resp = await api.get(`/wards/${user.workplace_id}/ventilators`);
+
+    // console.log(resp.data[0].ventilators);
+    setAvailableVents(resp.data[0].ventilators);
+
+    // setAvailableVents(() => {
+    //   return ventilators.filter((item) => item.is_free);
+    // });
+
+    setModalIsActive((prev) => !prev); // TODO: remane to setOpenModal
   }
 
   function closeModalHandler() {
@@ -77,32 +52,54 @@ function DispatcherHomeList() {
   }
 
   async function saveModalHandler(ventID, obs) {
-    // console.log(
-    //   `on save: orderID:${selectedOrder}, ventID: ${ventID}, obs: ${obs}`
-    // );
-
-    await dispatchVentilatorRequest(
-      {
-        orderID: selectedOrder,
+    try {
+      const resp = await api.patch(`/orders/${selectedOrder}`, {
+        id: selectedOrder,
         ventilator_id: ventID,
-        obs: obs,
-        status: 'DISPATCHED',
-      },
-      token
-    )
-      .then((ok) => {
-        console.log(ok);
-      })
-      .catch((error) => console.error(error));
+        obs,
+        action: 'DISPATCH',
+      });
 
-    setModalIsActive(false);
-    setRefreshPage(true);
+      // console.log(resp.data);
+
+      setModalIsActive(false);
+      refreshListHandler();
+      return;
+    } catch (error) {
+      console.log('on catch');
+      console.log(error);
+    }
   }
 
-  function refreshListHandler() {
-    console.log('will refresh');
-    getData(user.workplace_id, token);
-    setRefreshPage(true);
+  function handleCloseReceiveVentModal() {
+    setActivateReceiveVentModal(false);
+  }
+
+  async function handleReceiveVentilator(order) {
+    // will open a modal
+    console.log('receive ventilator process started');
+    setSelectedOrder(order);
+    setActivateReceiveVentModal(true);
+  }
+
+  async function handleSaveReceiveVentModal(vent, obs) {
+    console.log(vent);
+    console.log(obs);
+    try {
+      const resp = await api.patch(`/orders/${selectedOrder.id}`, {
+        action: 'RECEIVE',
+        obs,
+      });
+
+      console.log(resp.data);
+
+      setActivateReceiveVentModal(false);
+      refreshListHandler();
+      return;
+    } catch (error) {
+      console.log('on catch');
+      console.log(error);
+    }
   }
 
   if (user.workplace == null) {
@@ -117,6 +114,12 @@ function DispatcherHomeList() {
         closeEvent={closeModalHandler}
         saveEvent={saveModalHandler}
       ></DispatcherDispacthModal>
+      <DispatcherReceiveVentilatorModal
+        isActive={activateReceiveVentModal}
+        ventilator={selectedOrder?.ventilator || {}}
+        closeModalEvent={handleCloseReceiveVentModal}
+        receiveVentEvent={handleSaveReceiveVentModal}
+      ></DispatcherReceiveVentilatorModal>
       <div className="container">
         {/* btn actions group */}
         <div className="columns">
@@ -143,18 +146,26 @@ function DispatcherHomeList() {
 
         <div className="columns">
           <div className="column is-10 is-offset-1">
-            <section>{orders.length === 0 && <ListWithoutItems />}</section>
-            <section>
-              {orders.length !== 0 &&
-                orders.map((item) => (
-                  <DispatcherOrdersItem
-                    key={item.id}
-                    order={item}
-                    answerEvent={answerHandler}
-                    acceptEvent={acceptHandler}
-                  />
-                ))}
-            </section>
+            <div className="columns">
+              <div className="column is-12">
+                <section>{orders.length === 0 && <ListWithoutItems />}</section>
+              </div>
+            </div>
+            <div className="columns">
+              <div className="column is-12">
+                {/* <section> */}
+                {orders.length !== 0 &&
+                  orders.map((item) => (
+                    <DispatcherOrdersItem
+                      key={item.id}
+                      order={item}
+                      answerEvent={answerHandler}
+                      receiveEvent={handleReceiveVentilator}
+                    />
+                  ))}
+                {/* </section> */}
+              </div>
+            </div>
           </div>
         </div>
 
@@ -189,107 +200,44 @@ function DispatcherHomeList() {
 
 export default DispatcherHomeList;
 
-async function getData(serviceID, token) {
+async function getOrders(serviceID, setResult, setError) {
   try {
     const resp = await api.get(`/orders/?dest=${serviceID}`);
-    return resp.data;
+
+    setResult(resp.data);
   } catch (error) {
-    return error.response.data;
+    console.log(error);
+    setError(error.message);
   }
-  // try {
-  //   const resp = await fetch(
-  //     `http://localhost:3002/api/orders/?dest=${serviceID}`,
-  //     {
-  //       method: 'get',
-  //       headers: {
-  //         authorization: `Bearer ${token}`,
-  //       },
-  //     }
-  //   );
-
-  //   if (!resp.ok) {
-  //     return foundNothing();
-  //   }
-
-  //   return foundData(await resp.json());
-  // } catch (error) {
-  //   return foundError(error.message);
-  // }
 }
 
-// data { orderID, ventilatorID, obs }
-async function dispatchVentilatorRequest(data, token) {
+async function getVentilators(serviceID, setResult, setError) {
   try {
-    const resp = await api.patch(`/orders/${data.orderID}`, data);
-    return resp.data;
+    // const resp = await api.get(`/ventilators/?parkId=${serviceID}`);
+    const resp = await api.get(`/wards/${serviceID}/ventilators`);
+    console.log(resp.data[0].ventilators);
+    setResult(resp.data[0].ventilators);
   } catch (error) {
-    return error.response.data;
+    console.log(error);
+    setError(error.message);
   }
-
-  // try {
-  //   const resp = await fetch(
-  //     `http://localhost:3002/api/orders/${data.orderID}`,
-  //     {
-  //       method: 'PATCH',
-  //       headers: {
-  //         authorization: `Bearer ${token}`,
-  //         'Content-Type': 'application/json',
-  //       },
-  //       body: JSON.stringify(data),
-  //     }
-  //   );
-
-  //   if (!resp.ok) {
-  //     return foundNothing();
-  //   }
-
-  //   return foundData(await resp.json());
-  // } catch (error) {
-  //   return foundError(error.message);
-  // }
 }
 
-async function getVentilators(serviceID, token) {
-  try {
-    const resp = await api.get(`/ventilators/?parkId=${serviceID}`);
-    return resp.data;
-  } catch (error) {
-    return error.response.data;
-  }
-  // try {
-  //   const resp = await fetch(
-  //     `http://localhost:3002/api/ventilators/?parkId=${serviceID}`,
-  //     {
-  //       method: 'get',
-  //       headers: {
-  //         authorization: `Bearer ${token}`,
-  //       },
-  //     }
-  //   );
+// // data { orderID, ventilatorID, obs }
+// async function dispatchVentilatorRequest(data, token) {
+//   try {
+//     const resp = await api.patch(`/orders/${data.orderID}`, data);
+//     return resp.data;
+//   } catch (error) {
+//     return error.response.data;
+//   }
+// }
 
-  //   if (!resp.ok) {
-  //     return foundNothing();
-  //   }
-
-  //   return foundData(await resp.json());
-  // } catch (error) {
-  //   return foundError(error.message);
-  // }
-}
-
-function myResponse(isEmpty, data = [], error = null) {
-  return {
-    isEmpty,
-    data,
-    error,
-  };
-}
-function foundNothing() {
-  return myResponse(true);
-}
-function foundError(error) {
-  return myResponse(true, null, error);
-}
-function foundData(data) {
-  return myResponse(false, data, null);
-}
+// async function updateOrder(orderID, action, data) {
+//   try {
+//     const resp = await api.patch(`/orders/${orderID}`, { action, data });
+//     return resp.data;
+//   } catch (error) {
+//     return error.response.data;
+//   }
+// }

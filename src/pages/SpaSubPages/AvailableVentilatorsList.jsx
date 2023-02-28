@@ -47,7 +47,11 @@ function AvailableVentilatorsList() {
           ventilators.map((item) => (
             <VentilatorsItemByWard key={item.wardID} ventilator={item} />
           ))}
-        <Link to="/spa" className="button is-info is-pulled-right">
+        <Link
+          to="/spa/consumer"
+          className="button is-info is-pulled-right"
+          data-cy="close-available-vents"
+        >
           <box-icon color="white" name="chevron-left-circle" />
           <span className="ml-2">Voltar</span>
         </Link>

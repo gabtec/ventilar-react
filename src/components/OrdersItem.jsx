@@ -76,6 +76,12 @@ function OrdersItem({ order, deliverEvent }) {
                 </button>
               </div>
             </div>
+            <div className="columns">
+              <div className="column is-10">
+                <strong>Observações:</strong>
+                <p>{order.obs}</p>
+              </div>
+            </div>
           </div>
           <nav className="level is-mobile">
             <div className="level-left">

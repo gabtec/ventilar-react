@@ -11,7 +11,7 @@ import { logoutAction } from '../pages/LogoutPage';
 /* -- SPA Sub Pages -- */
 import InitialListByRole from '../pages/SpaSubPages/InitialListByRole';
 import AvailableVentilatorsList from '../pages/SpaSubPages/AvailableVentilatorsList';
-import OrderCreate from '../components/OrderCreate';
+import OrderCreate from '../components/Consumer.Order.Create';
 import OrderEdit from '../components/OrderEdit';
 import AdminHomeList from '../components/AdminHomeList';
 import DispatcherHomeList from '../components/DispatcherHomeList';
