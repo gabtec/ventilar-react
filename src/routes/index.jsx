@@ -9,7 +9,7 @@ import NotFound from '../pages/Error404';
 import { logoutAction } from '../pages/LogoutPage';
 
 /* -- SPA Sub Pages -- */
-import InitialListByRole from '../pages/SpaSubPages/InitialListByRole';
+// import InitialListByRole from '../pages/SpaSubPages/InitialListByRole';
 import AvailableVentilatorsList from '../pages/SpaSubPages/AvailableVentilatorsList';
 import OrderCreate from '../components/Consumer.Order.Create';
 import OrderEdit from '../components/OrderEdit';
@@ -25,6 +25,7 @@ const router = createBrowserRouter([
   {
     path: '/spa',
     element: <SpaPage />,
+    errorElement: <NotFound />,
     children: [
       // { index: true, element: <InitialListByRole /> },
       {

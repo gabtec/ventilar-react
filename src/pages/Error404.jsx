@@ -1,7 +1,16 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import css from './Error404.module.css';
 
 function NotFound() {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    setTimeout(() => {
+      navigate('/');
+    }, 1000);
+  }, []);
+
   return (
     <div className={css.gt_404_container}>
       <section className="hero has-text-centered">
