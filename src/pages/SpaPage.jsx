@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import useAuthUser from '../hooks/useAuthUser';
@@ -11,19 +11,21 @@ function SpaPage() {
   const navigate = useNavigate();
   const user = useAuthUser();
 
-  if (!user) {
-    navigate('/');
-    return <NotFound />;
-  }
-  if (user.role === 'admin') {
-    navigate('/spa/admin');
-  }
-  if (user.role === 'dispatcher') {
-    navigate('/spa/dispatcher');
-  }
-  if (user.role === 'consumer') {
-    navigate('/spa/consumer');
-  }
+  useEffect(() => {
+    if (!user) {
+      navigate('/');
+      return <NotFound />;
+    }
+    if (user.role === 'admin') {
+      navigate('/spa/admin');
+    }
+    if (user.role === 'dispatcher') {
+      navigate('/spa/dispatcher');
+    }
+    if (user.role === 'consumer') {
+      navigate('/spa/consumer');
+    }
+  }, []);
 
   return (
     <>
