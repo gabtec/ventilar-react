@@ -1,7 +1,8 @@
 /// <reference types="Cypress" />
 
 const USER_CONSUMER = 2000;
-const USER_CONSUMER_PASS = 'gabriel';
+const USER_CONSUMER_PASS = 'secret';
+const USER_CONSUMER_NAME = 'Maria Consumer';
 
 describe('SPA Consumer Page Test Suite', () => {
   describe('After success login', () => {

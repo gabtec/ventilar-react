@@ -1,7 +1,8 @@
 /// <reference types="Cypress" />
 
-const USER_DISPATCHER = 3428;
-const USER_DISPATCHER_PASS = 'gabriel';
+const USER_DISPATCHER = 1000;
+const USER_DISPATCHER_PASS = 'secret';
+const USER_DISPATCHER_NAME = 'Gil Dispatcher';
 
 describe('SPA Dispatcher Page Test Suite', () => {
   describe('After success login', () => {

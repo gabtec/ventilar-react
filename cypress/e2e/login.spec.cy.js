@@ -1,9 +1,11 @@
 /// <reference types="Cypress" />
 const USER_NOT_EXISTS = 9;
-const USER_CONSUMER = 2000;
-const USER_CONSUMER_PASS = 'gabriel';
 const USER_DISPATCHER = 1000;
-const USER_DISPATCHER_PASS = 'gabriel';
+const USER_DISPATCHER_PASS = 'secret';
+const USER_DISPATCHER_NAME = 'Gil Dispatcher';
+const USER_CONSUMER = 2000;
+const USER_CONSUMER_PASS = 'secret';
+const USER_CONSUMER_NAME = 'Maria Consumer';
 
 describe('Login Page Test Suite', () => {
   beforeEach(() => {
@@ -74,13 +76,13 @@ describe('Login Page Test Suite', () => {
 
     // on normal viewport
     cy.viewport('macbook-15');
-    cy.get('[data-cy="username-tag"]').contains('Gabriel Martins');
+    cy.get('[data-cy="username-tag"]').contains(USER_CONSUMER_NAME);
     cy.get('[data-cy="logout-btn"]').contains('Logout');
 
     // on smaller viewport
     cy.viewport('iphone-5');
     cy.get('.navbar-burger').click();
-    cy.get('[data-cy="username-tag"]').contains('Gabriel Martins');
+    cy.get('[data-cy="username-tag"]').contains(USER_CONSUMER_NAME);
     cy.get('[data-cy="logout-btn"]').contains('Logout');
   });
 });
