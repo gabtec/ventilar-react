@@ -1,15 +1,14 @@
-import { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import { store } from '../store';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import useSelectedOrder from '../hooks/useSelectedOrder';
 import useAuthUser from '../hooks/useAuthUser';
 import api from '../apiConnector/axios';
 
 function OrderEdit() {
+  const navigate = useNavigate();
+
   const user = useAuthUser();
   const selectedOrder = useSelectedOrder();
-
-  const navigate = useNavigate();
 
   const [patient, setPatient] = useState(selectedOrder.patient_name);
   const [bed, setBed] = useState(selectedOrder.patient_bed);
@@ -32,19 +31,14 @@ function OrderEdit() {
   }
 
   function navBackHandler() {
-    // const choice = confirm('Deseja mesmo sair?');
-    // if (choice) {
-    //   navigate('/spa');
-    // }
-    navigate(`/spa/${user.role}`); //BYPASS
+    // TODO: const choice = confirm('Deseja mesmo sair?');
+
+    navigate(`/spa/${user.role}`);
   }
 
   function cancelOrderHandler() {
-    console.log(
-      'TODO: cancel order --- update status to closed, obs: canceled by issuer'
-    );
     window.alert('Deseja mesmo anular este pedido? \n Not implemented yet.');
-    // updateOrderStatus(selectedOrder.id, { status: 'CLOSED', obs: obs });
+    // TODO: updateOrderStatus(selectedOrder.id, { status: 'CLOSED', obs: obs });
   }
 
   async function formSubmitHandler(event) {
@@ -55,14 +49,12 @@ function OrderEdit() {
     orderEdit.patient_bed = bed;
     orderEdit.obs = obs;
 
-    // saveOrder(order);
     const resp = await api.put(`/orders/${orderEdit.id}`, orderEdit);
-    console.log(resp);
+
     window.history.back();
   }
 
   return (
-    // <div className="columns is-centered pt-5 mt-5">
     <div className="column is-three-quarters has-background-white mt-5">
       <div className="title">Editar Requisição de Ventilador: </div>
 

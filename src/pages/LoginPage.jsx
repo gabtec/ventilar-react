@@ -26,12 +26,10 @@ export default function HomePage() {
 
     try {
       const resp = await api.post('/auth/login', { username, password });
-      console.log(resp.data);
       setAuthorizationHeader(resp.data.accessToken);
       dispatch(authStoreActions.storeAuthData(resp.data));
       navigate(`/spa/${resp.data.user.role}`);
     } catch (error) {
-      console.log(error.message);
       setLoginError('Credênciais inválidas. Tente novamente.');
     }
   }

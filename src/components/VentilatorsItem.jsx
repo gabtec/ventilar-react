@@ -5,7 +5,6 @@ function VentilatorsItem({ ventilator }) {
         <figure className="media-left">
           <p className="image is-64x64">
             <img src="https://cdn.bimedis.com/img/vimg/1835150/big" />
-            {/* <img src="../assets/trilogy-3000.png" /> */}
           </p>
         </figure>
         <div className="media-content">

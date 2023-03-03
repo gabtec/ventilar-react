@@ -1,12 +1,4 @@
-import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import { orderStoreActions } from '../store/order/order.store';
-
-// function OrdersItem({ order, deliverEvent }) {
-function ParkItem({ ventilator, answerEvent }) {
-  function editHandler() {
-    window.alert('editar pedido');
-  }
+function ParkItem({ ventilator }) {
   return (
     <div className="columns">
       <div className="column is-12">
@@ -37,14 +29,6 @@ function ParkItem({ ventilator, answerEvent }) {
                       {ventilator.is_free ? 'disponível' : 'em uso'}
                     </span>
                   </div>
-                  {/* <div className="column ">
-                <button
-                className="button is-small is-outlined is-info is-pulled-right"
-                onClick={editHandler}
-                >
-                Editar
-                </button>
-              </div> */}
                 </div>
               </div>
               <nav className="level is-mobile">

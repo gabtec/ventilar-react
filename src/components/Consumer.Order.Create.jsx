@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { store } from '../store';
 import api from '../apiConnector/axios';
@@ -9,13 +9,10 @@ function VentilatorOrder() {
   const { cat } = useParams();
   const selectedPark = store.getState().order.selectedPark;
   const authUser = store.getState().auth.authUser;
-  // const token = store.getState().auth.accessToken;
 
   const [patient, setPatient] = useState('');
   const [bed, setBed] = useState(1);
   const [obs, setObs] = useState('');
-
-  const [canExit, setCanExit] = useState(false);
   const [errors, setErrors] = useState(null);
 
   /**
@@ -32,11 +29,8 @@ function VentilatorOrder() {
   }
 
   function cancelHandler() {
-    // const choice = confirm('Deseja mesmo sair?');
-    // if (choice) {
-    //   navigate('/spa');
-    // }
-    navigate('/spa/consumer'); //BYPASS
+    // TODO: const choice = confirm('Deseja mesmo sair?');
+    navigate('/spa/consumer');
   }
 
   function formSubmitHandler(event) {
@@ -67,69 +61,22 @@ function VentilatorOrder() {
         to_id: selectedPark.wardID,
         from_id: authUser.workplace_id,
         requested_by: authUser.id,
-        // `(${authUser.mec}) ${authUser.name}`, //'(3429) Pedro Martins',
-        // ventilator_id: 0, // to be null. Who dispacthes, selects
       };
-      console.log('form handler');
-      console.log(order);
+
       saveOrder(order);
     }
   }
 
   async function saveOrder(order) {
-    // SEND to API
     try {
       const resp = await api.post('/orders', order);
-      // setCanExit(true);
       navigate('/spa/consumer');
     } catch (error) {
       console.error(error);
       setErrors(error.response.data);
     }
-    // const url = `http://localhost:3002/api/orders/`;
-
-    // try {
-    //   const resp = await fetch(
-    //     url,
-    //     {
-    //       method: 'post',
-    //       headers: {
-    //         authorization: `Bearer ${token}`,
-    //         'Content-Type': 'application/json',
-    //       },
-    //       body: JSON.stringify(order),
-    //     },
-    //     [url]
-    //   );
-
-    //   if (!resp.ok) {
-    //     console.log('deu erro');
-    //     const erro = await resp.json();
-    //     console.log(erro.message);
-    //     setErrors(erro.message);
-    //     return;
-    //   }
-    //   const resData = await resp.json();
-    //   console.log(resData);
-    //   setCanExit(true);
-    // } catch (error) {
-    //   console.log(error.message);
-    //   setErrors(error.message);
-    // }
   }
-  // useEffect(()=>{
-  //   if(!loading){
-  //     console.log(value);
-  //   }else{
-  //     console.log('still sending')
-  //   }
-  // }, [loading]);
 
-  // useEffect(() => {
-  //   if (canExit) {
-  //     navigate('/spa');
-  //   }
-  // }, [canExit]);
   return (
     <div className="column is-three-quarters has-background-white mt-5">
       <div className="title">
@@ -220,7 +167,6 @@ function VentilatorOrder() {
           >
             Cancelar
           </button>
-          {/* <button className="button is-success">Guardar</button> */}
           <button
             type="submit"
             className="button is-success"

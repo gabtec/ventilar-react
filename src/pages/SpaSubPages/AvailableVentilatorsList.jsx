@@ -1,8 +1,6 @@
 import { Link, useParams } from 'react-router-dom';
 import ListWithoutItems from '../../components/ListWithoutItems';
 import VentilatorsItemByWard from '../../components/VentilatorsItemByWard';
-import { store } from '../../store';
-import useFetch from '../../hooks/useFetch';
 import api from '../../apiConnector/axios';
 import { useEffect, useState } from 'react';
 
@@ -10,15 +8,6 @@ function AvailableVentilatorsList() {
   const params = useParams();
   const [ventilators, setVentilators] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-
-  // const token = store.getState().auth.accessToken;
-  // const url = `http://localhost:3002/api/ventilators/?status=true&cat=${params.cat.toUpperCase()}`;
-
-  // const { loading, error, value } = useFetch(
-  //   url,
-  //   { headers: { authorization: `Bearer ${token}` } },
-  //   [url]
-  // );
 
   useEffect(() => {
     setIsLoading(true);
@@ -38,7 +27,6 @@ function AvailableVentilatorsList() {
 
   return (
     <>
-      {/* <div className="columns is-centered pt-5"> */}
       <div className="column is-three-quarters">
         <div className="title">Lista de Ventiladores Disponíveis:</div>
 

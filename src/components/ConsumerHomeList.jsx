@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import useAuthUser from '../hooks/useAuthUser';
 import useSelectedOrder from '../hooks/useSelectedOrder';
-import useToken from '../hooks/useToken';
 
 import ListWithoutItems from './ListWithoutItems';
 import OrdersItem from './OrdersItem';
@@ -9,12 +8,9 @@ import UserWithoutWardNotif from './UserWithoutWardNotif';
 import SelectVentCatModal from './Consumer-select-category.modal';
 import DeliverVentModal from './DeliverVent.modal';
 import api from '../apiConnector/axios';
-import { useNavigate } from 'react-router-dom';
 
 function ConsumerHomeList() {
   const user = useAuthUser();
-  // const token = useToken();
-  const navigate = useNavigate();
 
   const [modalIsActive, setModalIsActive] = useState(false);
   const [selectCatDialogIsOpen, setSelectCatDialogIsOpen] = useState(false);
@@ -45,27 +41,18 @@ function ConsumerHomeList() {
   }
 
   async function handleReturnVentilator(ventilator, obs) {
-    console.log(selectedOrder);
-    console.log(obs);
-
     try {
       const resp = await api.patch(`/orders/${selectedOrder.id}`, {
         action: 'RETURN',
         obs,
       });
 
-      // console.log(resp.data);
-
       setModalIsActive(false);
       refreshListHandler();
       return;
     } catch (error) {
-      console.log('on catch');
       console.log(error);
     }
-
-    // setModalIsActive(false);
-    // returnVentilatorToPark(selectedOrder, setOrders, setError);
   }
 
   function toggleSelectVentilatorDialog() {
@@ -110,7 +97,6 @@ function ConsumerHomeList() {
               className="button is-success is-pulled-right"
               data-cy="add-order-btn"
               onClick={toggleSelectVentilatorDialog}
-              // onClick={openModalEvent}
             >
               <box-icon color="white" name="plus-circle" />{' '}
               <span className="ml-2">Adicionar</span>
@@ -145,50 +131,12 @@ function ConsumerHomeList() {
 
 export default ConsumerHomeList;
 
-/**
- * Helper functions
- */
-// async function returnVentilatorToPark(order, setResult, setError) {
-//   try {
-//     const resp = await api.patch(`/orders/${order.id}`, {
-//       id: order.id,
-//       status: 'RETURNED',
-//       obs: order.obs,
-//       ventilator_id: '' + order.ventilator_id,
-//     });
-//     console.log(resp.data);
-//     // setResult(resp.data);
-//     getData(order.from_id, setResult, setError);
-//   } catch (error) {
-//     console.log(error);
-//     setError(error.message);
-//   }
-// }
-
 async function getData(serviceID, setResult, setError) {
   try {
     const resp = await api.get(`/orders/?src=${serviceID}`);
-    console.log(resp.data);
     setResult(resp.data);
   } catch (error) {
     console.log(error);
     setError(error.message);
   }
 }
-
-// function myResponse(isEmpty, data = [], error = null) {
-//   return {
-//     isEmpty,
-//     data,
-//     error,
-//   };
-// }
-// function foundNothing() {
-//   return myResponse(true);
-// }
-// function foundError(error) {
-//   return myResponse(true, null, error);
-// }
-// function foundData(data) {
-//   return myResponse(false, data, null);
-// }

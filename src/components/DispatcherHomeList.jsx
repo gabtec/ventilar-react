@@ -32,17 +32,11 @@ function DispatcherHomeList() {
   }, []);
 
   async function answerHandler(orderID) {
-    console.log(orderID);
     setSelectedOrder(orderID);
-    // TODO: get from database
+
     const resp = await api.get(`/wards/${user.workplace_id}/ventilators`);
 
-    // console.log(resp.data[0].ventilators);
     setAvailableVents(resp.data[0].ventilators);
-
-    // setAvailableVents(() => {
-    //   return ventilators.filter((item) => item.is_free);
-    // });
 
     setModalIsActive((prev) => !prev); // TODO: remane to setOpenModal
   }
@@ -60,13 +54,10 @@ function DispatcherHomeList() {
         action: 'DISPATCH',
       });
 
-      // console.log(resp.data);
-
       setModalIsActive(false);
       refreshListHandler();
       return;
     } catch (error) {
-      console.log('on catch');
       console.log(error);
     }
   }
@@ -77,7 +68,6 @@ function DispatcherHomeList() {
 
   async function handleReceiveVentilator(order) {
     // will open a modal
-    console.log('receive ventilator process started');
     setSelectedOrder(order);
     setActivateReceiveVentModal(true);
   }
@@ -213,31 +203,9 @@ async function getOrders(serviceID, setResult, setError) {
 
 async function getVentilators(serviceID, setResult, setError) {
   try {
-    // const resp = await api.get(`/ventilators/?parkId=${serviceID}`);
     const resp = await api.get(`/wards/${serviceID}/ventilators`);
-    console.log(resp.data[0].ventilators);
     setResult(resp.data[0].ventilators);
   } catch (error) {
-    console.log(error);
     setError(error.message);
   }
 }
-
-// // data { orderID, ventilatorID, obs }
-// async function dispatchVentilatorRequest(data, token) {
-//   try {
-//     const resp = await api.patch(`/orders/${data.orderID}`, data);
-//     return resp.data;
-//   } catch (error) {
-//     return error.response.data;
-//   }
-// }
-
-// async function updateOrder(orderID, action, data) {
-//   try {
-//     const resp = await api.patch(`/orders/${orderID}`, { action, data });
-//     return resp.data;
-//   } catch (error) {
-//     return error.response.data;
-//   }
-// }

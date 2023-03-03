@@ -8,11 +8,11 @@ function DispatcherDispacthModal({
   closeEvent,
   saveEvent,
 }) {
+  const title = `Empréstimo de ventilador:`;
+
   const [vent, setVent] = useState(0);
   const [obs, setObs] = useState('');
   const modalClasses = isActive ? ['modal', 'is-active'] : ['modal'];
-
-  const title = `Empréstimo de ventilador:`;
 
   function selectVentilatorHandler(event) {
     console.log(event.target.value);

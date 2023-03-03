@@ -3,16 +3,12 @@ import { useNavigate } from 'react-router-dom';
 import OrderStatusTag from './OrderStatus-tag';
 import { orderStoreActions } from '../store/order/order.store';
 
-// function OrdersItem({ order, deliverEvent }) {
 function OrdersItem({ order, answerEvent, receiveEvent }) {
   const hasVentilator = order.ventilator ? true : false;
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   function editHandler() {
-    // window.alert('TODO: editHandler');
-    // console.log('on editar');
-    // console.log(order);
     dispatch(orderStoreActions.storeSelectedOrder(order));
     navigate(`/spa/orders/edit/${order.id}`);
   }
@@ -56,12 +52,7 @@ function OrdersItem({ order, answerEvent, receiveEvent }) {
             </p>
             <div className="columns">
               <div className="column is-2">
-                {/* <span className="tag is-warning">{order.status}</span> */}
                 <OrderStatusTag status={order.status}></OrderStatusTag>
-
-                {/* {!isPending && (
-                  <span className="tag is-success">{order.status}</span>
-                )} */}
               </div>
               <div className="column">
                 <div className="buttons is-right">

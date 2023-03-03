@@ -21,7 +21,6 @@ export const authSlice = createSlice({
       state.accessToken = action.payload;
     },
     clearAuthData(state, action) {
-      // console.log('call clear');
       state.authUser = {};
       state.accessToken = undefined;
       state.refreshToken = undefined;
@@ -30,7 +29,6 @@ export const authSlice = createSlice({
   },
 });
 
-// export const { example } = authSlice.actions;
 // export const { storeAuthData, clearAuthData } = authSlice.actions;
 export const authStoreActions = authSlice.actions;
 export default authSlice.reducer;

@@ -1,6 +1,4 @@
 import { useNavigate } from 'react-router-dom';
-import { store } from '../store';
-
 import { useDispatch } from 'react-redux';
 import { orderStoreActions } from '../store/order/order.store';
 

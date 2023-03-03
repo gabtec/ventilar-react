@@ -1,4 +1,4 @@
-import { describe, test, it, expect } from 'vitest';
+import { describe, it, expect } from 'vitest';
 import { render, screen } from '@testing-library/react';
 
 import VentilatorItem from './VentilatorsItem';
@@ -14,7 +14,7 @@ const ventsByWard = {
 };
 
 describe('Accordion test', () => {
-  test('Should show title', () => {
+  it('Should show title', () => {
     // ARRANGE
     render(<VentilatorItem ventilator={ventsByWard} />);
 

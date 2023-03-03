@@ -79,8 +79,6 @@ export default function DispatcherReceiveVentilatorModal({
   );
 }
 
-// export default DispatcherReceiveVentilatorModal;
-
 export function printVentilatorName(vent) {
   if (!vent) return '';
 

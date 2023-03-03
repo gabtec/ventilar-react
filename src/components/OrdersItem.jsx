@@ -8,10 +8,7 @@ function OrdersItem({ order, deliverEvent }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  // console.log(props);
   function editHandler() {
-    console.log('on editar');
-    console.log(order);
     dispatch(orderStoreActions.storeSelectedOrder(order));
     navigate(`/spa/orders/edit/${order.id}`);
   }
@@ -27,7 +24,6 @@ function OrdersItem({ order, deliverEvent }) {
         <figure className="media-left">
           <p className="image is-64x64">
             <img src="https://cdn.bimedis.com/img/vimg/1835150/big" />
-            {/* <img src="../assets/trilogy-3000.png" /> */}
           </p>
         </figure>
         <div className="media-content">
@@ -54,11 +50,6 @@ function OrdersItem({ order, deliverEvent }) {
             <div className="columns">
               <div className="column is-2">
                 <OrderStatusTag status={order.status}></OrderStatusTag>
-                {/* <span className="tag is-warning">{order.status}</span> */}
-
-                {/* {!isPending && (
-                  <span className="tag is-success">{order.status}</span>
-                )} */}
               </div>
               <div className="column is-offset-6 is-8">
                 <button
