@@ -1,5 +1,11 @@
 # Ventilar React App
 
+This is a MVP for an app that allow hospitals to manage their ventilators.
+The ideia came from my passed experience with covid in hospital ER ward.
+
+It also allowed me to learn React, NestJS and automated deployment process.
+It's still a work in progress...
+
 It will consume a backend API
 
 ## Local Deploy
